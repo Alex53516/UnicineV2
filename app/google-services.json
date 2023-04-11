@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "584731477775",
+    "project_id": "unicinev2",
+    "storage_bucket": "unicinev2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:584731477775:android:ea2b677a77a9307d1ba07a",
+        "android_client_info": {
+          "package_name": "com.example.unicine"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "584731477775-gi2j9uvo44jkmnaaa5e7ac6vrbg47bpr.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyACmMhcVO5u4PY_aI2KwkJSqihjoHEEKiA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "584731477775-gi2j9uvo44jkmnaaa5e7ac6vrbg47bpr.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

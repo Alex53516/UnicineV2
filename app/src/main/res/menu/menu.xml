@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/navigation_comprar"
+        android:title="Comprar"
+        android:icon="@drawable/compra"
+        android:iconTint="@color/verdeOscuro"/>
+
+    <item
+        android:id="@+id/navigation_usuario"
+        android:icon="@drawable/usuario"
+        android:title="Usuario"
+        android:iconTint="@color/verdeOscuro"/>
+
+    <item
+        android:id="@+id/navigation_mas"
+        android:title="Más"
+        android:icon="@drawable/trespuntos5"
+        android:iconTint="@color/verdeOscuro"/>
+
+
+</menu>
