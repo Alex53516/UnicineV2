@@ -24,11 +24,19 @@ public class CarteleraABC extends AppCompatActivity {
         List<String> movieTitles = new ArrayList<>();
         movieTitles.add("El gato con botas");
         movieTitles.add("Cars");
+        movieTitles.add("El rey león");
+        movieTitles.add("Toy story");
+
+
         // Añadir más títulos...
 
         List<Integer> imageResourceIds = new ArrayList<>();
         imageResourceIds.add(R.drawable.elgatoconbotas);
         imageResourceIds.add(R.drawable.cars);
+        imageResourceIds.add(R.drawable.elreyleon);
+        imageResourceIds.add(R.drawable.toystory);
+
+
         // Añadir más recursos de imágenes...
 
         MovieAdapter movieAdapter = new MovieAdapter(movieTitles, imageResourceIds);

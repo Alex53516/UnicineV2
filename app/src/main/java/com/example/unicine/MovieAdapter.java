@@ -53,11 +53,12 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         ImageView movieImage;
         TextView movieTitle;
-
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             movieImage = itemView.findViewById(R.id.movie_image);
             movieTitle = itemView.findViewById(R.id.movie_title);
+
+
         }
     }
 }
