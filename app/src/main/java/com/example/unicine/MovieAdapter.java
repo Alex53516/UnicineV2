@@ -1,5 +1,6 @@
 package com.example.unicine;
 
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -43,6 +44,16 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
                 .load(imageResourceId)
                 .transform(new CenterCrop(), roundedCorners)
                 .into(holder.movieImage);
+
+        // Agrega un listener de clics
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(holder.itemView.getContext(), DescripionPelicula.class);
+                intent.putExtra("movieTitle", title);
+                holder.itemView.getContext().startActivity(intent);
+            }
+        });
     }
 
     @Override
@@ -57,8 +68,6 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
             super(itemView);
             movieImage = itemView.findViewById(R.id.movie_image);
             movieTitle = itemView.findViewById(R.id.movie_title);
-
-
         }
     }
 }
