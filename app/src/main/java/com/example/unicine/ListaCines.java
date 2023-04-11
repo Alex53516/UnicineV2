@@ -2,6 +2,7 @@ package com.example.unicine;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -53,6 +54,11 @@ public class ListaCines extends AppCompatActivity {
         d5.setOnClickListener(this::onClick);
         c6.setOnClickListener(this::onClick);
         d6.setOnClickListener(this::onClick);
+
+        int color = ContextCompat.getColor(this, R.color.azul);
+
+        getWindow().setNavigationBarColor(color);
+        getWindow().setStatusBarColor(color);
 
 
         FirebaseApp.initializeApp(this);

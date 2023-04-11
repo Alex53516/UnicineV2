@@ -1,6 +1,7 @@
 package com.example.unicine;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -43,6 +44,11 @@ public class CarteleraABC extends AppCompatActivity {
         RecyclerView recyclerView = findViewById(R.id.recycler_view);
         recyclerView.setAdapter(movieAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        int color = ContextCompat.getColor(this, R.color.azul);
+
+        getWindow().setNavigationBarColor(color);
+        getWindow().setStatusBarColor(color);
 
 
 

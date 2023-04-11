@@ -36,6 +36,10 @@ public class PantallaPrincipal extends AppCompatActivity {
 
         getWindow().setNavigationBarColor(color);
 
+        int color2 = ContextCompat.getColor(this, R.color.azul);
+
+        getWindow().setStatusBarColor(color2);
+
         bottom = (BottomNavigationView) findViewById(R.id.bottomNavigationView);
 
         //Esto es para hacer mas grande las letras al pinchar sobre ellas
