@@ -3,6 +3,8 @@ package com.example.unicine;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -28,10 +30,10 @@ public class DescripionPelicula extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_descripion_pelicula);
 
-        int color = ContextCompat.getColor(this, R.color.azul);
-
-        getWindow().setNavigationBarColor(color);
-        getWindow().setStatusBarColor(color);
+        Drawable degradado = getResources().getDrawable(R.drawable.degradado_azul);
+        getWindow().setNavigationBarColor(Color.TRANSPARENT);
+        getWindow().setStatusBarColor(Color.TRANSPARENT);
+        getWindow().setBackgroundDrawable(degradado);
 
 
         titulo = (TextView) findViewById(R.id.textViewTituloPeli);
@@ -64,7 +66,7 @@ public class DescripionPelicula extends AppCompatActivity {
                         titulo.setText("Titulo: " + nombre);
                         dur.setText("Duración: " + duracion);
                         gen.setText("Género: " + genero);
-                        sinop.setText(sinopsis);
+                        sinop.setText("Sinopsis: " + sinopsis);
                         edadReco.setText("Edad recomendada: " + edad);
 
                         HashMap<String, Integer> imagenes = new HashMap<>();
@@ -81,8 +83,6 @@ public class DescripionPelicula extends AppCompatActivity {
                         }
 
                         // Agregar más títulos y rutas de imágenes según necesites
-
-
 
 
 
