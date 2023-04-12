@@ -20,11 +20,11 @@ import java.util.List;
 public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> {
 
     private List<String> movieTitles;
-    private List<Integer> imageResourceIds;
+    private List<String> imageDrawableNames; // Cambiar a nombres de drawables
 
-    public MovieAdapter(List<String> movieTitles, List<Integer> imageResourceIds) {
+    public MovieAdapter(List<String> movieTitles, List<String> imageDrawableNames) {
         this.movieTitles = movieTitles;
-        this.imageResourceIds = imageResourceIds;
+        this.imageDrawableNames = imageDrawableNames;
     }
 
     @NonNull
@@ -37,11 +37,14 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         String title = movieTitles.get(position);
-        int imageResourceId = imageResourceIds.get(position);
+        String drawableName = imageDrawableNames.get(position);
         holder.movieTitle.setText(title);
+
+        int resourceId = holder.itemView.getContext().getResources().getIdentifier(drawableName, "drawable", holder.itemView.getContext().getPackageName());
+
         RoundedCorners roundedCorners = new RoundedCorners(50);
         Glide.with(holder.movieImage.getContext())
-                .load(imageResourceId)
+                .load(resourceId)
                 .transform(new CenterCrop(), roundedCorners)
                 .into(holder.movieImage);
 

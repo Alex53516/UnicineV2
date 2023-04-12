@@ -55,14 +55,8 @@ public class CarteleraABC extends AppCompatActivity {
                             }
 
                             // Configurar el adaptador de RecyclerView
-                            List<Integer> imageResourceIds = new ArrayList<>();
 
-                            imageResourceIds.add(R.drawable.elgatoconbotas);
-                            imageResourceIds.add(R.drawable.cars);
-                            imageResourceIds.add(R.drawable.elreyleon);
-                            imageResourceIds.add(R.drawable.toystory);
-
-                            MovieAdapter movieAdapter = new MovieAdapter(movieTitles, imageResourceIds);
+                            MovieAdapter movieAdapter = new MovieAdapter(movieTitles, imageMovies);
                             RecyclerView recyclerView = findViewById(R.id.recycler_view);
                             recyclerView.setAdapter(movieAdapter);
                             recyclerView.setLayoutManager(new LinearLayoutManager(CarteleraABC.this));
