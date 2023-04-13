@@ -128,10 +128,98 @@ public class CarteleraABC extends AppCompatActivity {
                         }
                     });
 
+        } else if (valor.equals("4")) {
 
-            int color = ContextCompat.getColor(this, R.color.azul);
-            getWindow().setNavigationBarColor(color);
-            getWindow().setStatusBarColor(color);
-        }
+            peliculasRef.whereEqualTo("IdCine", "4")
+                    .get()
+                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                            if (task.isSuccessful()) {
+                                for (QueryDocumentSnapshot document : task.getResult()) {
+                                    String movieName = document.getString("Nombre");
+                                    String imageName = document.getString("resourceBig");
+                                    Log.w(TAG, movieName, task.getException());
+                                    movieTitles.add(movieName);
+                                    imageMovies.add(imageName);
+                                }
+
+                                // Configurar el adaptador de RecyclerView
+
+                                MovieAdapter movieAdapter = new MovieAdapter(movieTitles, imageMovies);
+                                RecyclerView recyclerView = findViewById(R.id.recycler_view);
+                                recyclerView.setAdapter(movieAdapter);
+                                recyclerView.setLayoutManager(new LinearLayoutManager(CarteleraABC.this));
+                            } else {
+                                Log.w(TAG, "Error obteniendo los documentos.", task.getException());
+                            }
+                        }
+                    });
+
+        } else if (valor.equals("5")) {
+
+        peliculasRef.whereEqualTo("IdCine", "5")
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                String movieName = document.getString("Nombre");
+                                String imageName = document.getString("resourceBig");
+                                Log.w(TAG, movieName, task.getException());
+                                movieTitles.add(movieName);
+                                imageMovies.add(imageName);
+                            }
+
+                            // Configurar el adaptador de RecyclerView
+
+                            MovieAdapter movieAdapter = new MovieAdapter(movieTitles, imageMovies);
+                            RecyclerView recyclerView = findViewById(R.id.recycler_view);
+                            recyclerView.setAdapter(movieAdapter);
+                            recyclerView.setLayoutManager(new LinearLayoutManager(CarteleraABC.this));
+                        } else {
+                            Log.w(TAG, "Error obteniendo los documentos.", task.getException());
+                        }
+                    }
+                });
+
+
+        } else if (valor.equals("6")) {
+
+            peliculasRef.whereEqualTo("IdCine", "6")
+                    .get()
+                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                            if (task.isSuccessful()) {
+                                for (QueryDocumentSnapshot document : task.getResult()) {
+                                    String movieName = document.getString("Nombre");
+                                    String imageName = document.getString("resourceBig");
+                                    Log.w(TAG, movieName, task.getException());
+                                    movieTitles.add(movieName);
+                                    imageMovies.add(imageName);
+                                }
+
+                                // Configurar el adaptador de RecyclerView
+
+                                MovieAdapter movieAdapter = new MovieAdapter(movieTitles, imageMovies);
+                                RecyclerView recyclerView = findViewById(R.id.recycler_view);
+                                recyclerView.setAdapter(movieAdapter);
+                                recyclerView.setLayoutManager(new LinearLayoutManager(CarteleraABC.this));
+                            } else {
+                                Log.w(TAG, "Error obteniendo los documentos.", task.getException());
+                            }
+                        }
+                    });
+
+    }
+
+
+
+        int color = ContextCompat.getColor(this, R.color.azul);
+        getWindow().setNavigationBarColor(color);
+        getWindow().setStatusBarColor(color);
+
     }
 }

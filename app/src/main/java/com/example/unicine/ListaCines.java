@@ -216,7 +216,39 @@ public class ListaCines extends AppCompatActivity {
 
                 break;
 
+            case R.id.textViewC4:
 
+            case R.id.textViewD4:
+
+                Intent carteleraBabel = new Intent(this, CarteleraABC.class);
+                cineValor = "4";
+                carteleraBabel.putExtra("clave", cineValor);
+                startActivity(carteleraBabel);
+
+                break;
+
+
+            case R.id.textViewC5:
+
+            case R.id.textViewD5:
+
+                Intent carteleraKinepolis = new Intent(this, CarteleraABC.class);
+                cineValor = "5";
+                carteleraKinepolis.putExtra("clave", cineValor);
+                startActivity(carteleraKinepolis);
+
+                break;
+
+            case R.id.textViewC6:
+
+            case R.id.textViewD6:
+
+                Intent carteleraMN4 = new Intent(this, CarteleraABC.class);
+                cineValor = "6";
+                carteleraMN4.putExtra("clave", cineValor);
+                startActivity(carteleraMN4);
+
+                break;
         }
 
 
