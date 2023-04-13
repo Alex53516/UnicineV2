@@ -41,6 +41,8 @@ public class DescripionPelicula extends AppCompatActivity {
         gen = (TextView) findViewById(R.id.textViewGeneroPeli);
         sinop = (TextView) findViewById(R.id.textViewSinopsisPeli);
         edadReco = (TextView) findViewById(R.id.textViewEdadPeli);
+        ImageView imageView = findViewById(R.id.imageViewPeli); // Obtener la ImageView desde el layout de tu actividad
+
 
         // Recupera el título de la película del Intent
         String movieTitle = getIntent().getStringExtra("movieTitle");
@@ -61,7 +63,7 @@ public class DescripionPelicula extends AppCompatActivity {
                         String genero = documentSnapshot.getString("Genero");
                         String sinopsis = documentSnapshot.getString("Sinopsis");
                         String edad = documentSnapshot.getString("Edad");
-
+                        String resourceSmall = documentSnapshot.getString("resourceSmall"); // Obtener el valor del atributo "resourceSmall"
 
                         titulo.setText("Titulo: " + nombre);
                         dur.setText("Duración: " + duracion);
@@ -69,23 +71,11 @@ public class DescripionPelicula extends AppCompatActivity {
                         sinop.setText("Sinopsis: " + sinopsis);
                         edadReco.setText("Edad recomendada: " + edad);
 
-                        HashMap<String, Integer> imagenes = new HashMap<>();
-                        imagenes.put("El gato con botas", R.drawable.elgatoconbotasvertical);
-                        imagenes.put("Cars", R.drawable.cars);
-                        imagenes.put("El rey león", R.drawable.elreyleon);
-                        imagenes.put("Toy story", R.drawable.toystory);
+                        // Obtener el identificador de recurso del drawable
+                        int resourceId = getResources().getIdentifier(resourceSmall, "drawable", getPackageName());
 
-
-                        if (imagenes.containsKey(nombre)) {
-                            int idImagen = imagenes.get(nombre);
-                            ImageView imageView = findViewById(R.id.imageViewPeli); // Obtener la ImageView desde el layout de tu actividad
-                            imageView.setImageResource(idImagen); // Mostrar la imagen correspondiente en la ImageView
-                        }
-
-                        // Agregar más títulos y rutas de imágenes según necesites
-
-
-
+                        // Establecer la imagen del drawable en la ImageView
+                        imageView.setImageResource(resourceId);
 
                     } else {
                         // Si no se encuentra ninguna película con ese título, mostrar un mensaje al usuario
@@ -95,7 +85,5 @@ public class DescripionPelicula extends AppCompatActivity {
                 }
             }
         });
-
-
     }
 }
