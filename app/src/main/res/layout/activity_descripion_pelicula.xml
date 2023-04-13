@@ -21,20 +21,21 @@
 
     <TextView
         android:id="@+id/textViewEdadPeli"
-        android:layout_width="199dp"
-        android:layout_height="28dp"
+        android:layout_width="200dp"
+        android:layout_height="34dp"
+        android:textColor="@color/gris_blanco"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintHorizontal_bias="0.995"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.254" />
+        app:layout_constraintVertical_bias="0.246" />
 
     <TextView
         android:id="@+id/textViewSinopsisPeli"
         android:layout_width="376dp"
         android:layout_height="192dp"
-        android:textColor="#FFFFFF"
+        android:textColor="@color/gris_blanco"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.485"
@@ -44,35 +45,38 @@
 
     <TextView
         android:id="@+id/textViewDuracionPeli"
-        android:layout_width="199dp"
-        android:layout_height="28dp"
+        android:layout_width="201dp"
+        android:layout_height="33dp"
+        android:textColor="@color/gris_blanco"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.191" />
+        app:layout_constraintVertical_bias="0.185" />
 
     <TextView
         android:id="@+id/textViewGeneroPeli"
         android:layout_width="199dp"
-        android:layout_height="28dp"
+        android:layout_height="39dp"
+        android:textColor="@color/gris_blanco"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintHorizontal_bias="0.99"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.126" />
+        app:layout_constraintVertical_bias="0.123" />
 
     <TextView
         android:id="@+id/textViewTituloPeli"
-        android:layout_width="199dp"
-        android:layout_height="28dp"
+        android:layout_width="201dp"
+        android:layout_height="38dp"
+        android:textColor="@color/gris_blanco"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.061" />
+        app:layout_constraintVertical_bias="0.055" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

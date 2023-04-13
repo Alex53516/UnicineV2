@@ -20,6 +20,7 @@ public class ListaCines extends AppCompatActivity {
 
     TextView c1, c2, c3, c4, c5, c6;
     TextView d1, d2, d3, d4, d5, d6;
+    String cineValor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,6 +95,7 @@ public class ListaCines extends AppCompatActivity {
                         String direccion = document.getString("Direccion");
                         c2.setText(nombre);
                         d2.setText(direccion);
+
                     }
 
                 }
@@ -111,6 +113,7 @@ public class ListaCines extends AppCompatActivity {
                         String direccion = document.getString("Direccion");
                         c3.setText(nombre);
                         d3.setText(direccion);
+
                     }
 
                 }
@@ -128,6 +131,7 @@ public class ListaCines extends AppCompatActivity {
                         String direccion = document.getString("Direccion");
                         c4.setText(nombre);
                         d4.setText(direccion);
+
                     }
 
                 }
@@ -145,6 +149,7 @@ public class ListaCines extends AppCompatActivity {
                         String direccion = document.getString("Direccion");
                         c5.setText(nombre);
                         d5.setText(direccion);
+
                     }
 
                 }
@@ -162,6 +167,7 @@ public class ListaCines extends AppCompatActivity {
                         String direccion = document.getString("Direccion");
                         c6.setText(nombre);
                         d6.setText(direccion);
+
                     }
 
                 }
@@ -181,7 +187,32 @@ public class ListaCines extends AppCompatActivity {
             case R.id.textViewD1:
 
                 Intent carteleraABC1 = new Intent(this, CarteleraABC.class);
+                cineValor = "1";
+                carteleraABC1.putExtra("clave", cineValor);
                 startActivity(carteleraABC1);
+
+                break;
+
+            case R.id.textViewC2:
+
+            case R.id.textViewD2:
+
+                Intent carteleraLys = new Intent(this, CarteleraABC.class);
+                cineValor = "2";
+                carteleraLys.putExtra("clave", cineValor);
+                startActivity(carteleraLys);
+
+                break;
+
+
+            case R.id.textViewC3:
+
+            case R.id.textViewD3:
+
+                Intent carteleraYelmo = new Intent(this, CarteleraABC.class);
+                cineValor = "3";
+                carteleraYelmo.putExtra("clave", cineValor);
+                startActivity(carteleraYelmo);
 
                 break;
 

@@ -67,7 +67,7 @@ public class DescripionPelicula extends AppCompatActivity {
 
                         titulo.setText("Titulo: " + nombre);
                         dur.setText("Duración: " + duracion);
-                        gen.setText("Género: " + genero);
+                        gen.setText("Géneros: " + genero);
                         sinop.setText("Sinopsis: " + sinopsis);
                         edadReco.setText("Edad recomendada: " + edad);
 
