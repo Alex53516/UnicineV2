@@ -2,10 +2,13 @@ package com.example.unicine;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -23,7 +26,9 @@ import java.util.HashMap;
 
 public class DescripionPelicula extends AppCompatActivity {
 
-    TextView titulo, dur, gen, sinop, edadReco;
+    TextView titulo, dur, gen, sinop, edadReco, irPases;
+    FrameLayout frm;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,7 +46,13 @@ public class DescripionPelicula extends AppCompatActivity {
         gen = (TextView) findViewById(R.id.textViewGeneroPeli);
         sinop = (TextView) findViewById(R.id.textViewSinopsisPeli);
         edadReco = (TextView) findViewById(R.id.textViewEdadPeli);
+        frm = (FrameLayout) findViewById(R.id.framePases);
+        irPases = (TextView) findViewById(R.id.textViewIrPases);
         ImageView imageView = findViewById(R.id.imageViewPeli); // Obtener la ImageView desde el layout de tu actividad
+
+        frm.setVisibility(View.INVISIBLE);
+
+        irPases.setOnClickListener(this::onClick);
 
 
         // Recupera el título de la película del Intent
@@ -86,4 +97,26 @@ public class DescripionPelicula extends AppCompatActivity {
             }
         });
     }
+
+    public void onClick(View v) {
+
+        switch (v.getId()) {
+
+            case R.id.textViewIrPases:
+
+                frm.setVisibility(View.VISIBLE);
+
+                PasesFragment fragmentPases = new PasesFragment();
+                FragmentTransaction fragmentTransaction1 = getSupportFragmentManager().beginTransaction();
+                fragmentTransaction1.add(R.id.framePases, fragmentPases);
+                fragmentTransaction1.commit();
+
+        }
+
+    }
+
+
+
+
+
 }

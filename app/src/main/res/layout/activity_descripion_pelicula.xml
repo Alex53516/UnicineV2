@@ -79,4 +79,33 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.055" />
 
+    <TextView
+        android:id="@+id/textViewIrPases"
+        android:layout_width="337dp"
+        android:layout_height="51dp"
+        android:layout_marginTop="300dp"
+        android:background="@drawable/round_button_rojo"
+        android:text="\nSeleccionar una sesión"
+        android:textAlignment="center"
+        android:textColor="#FFFFFF"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <FrameLayout
+        android:id="@+id/framePases"
+        android:layout_width="380dp"
+        android:layout_height="829dp"
+        android:background="#80000000"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.478"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.492">
+
+    </FrameLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
