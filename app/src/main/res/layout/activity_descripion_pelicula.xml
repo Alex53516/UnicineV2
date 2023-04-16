@@ -98,7 +98,7 @@
         android:id="@+id/framePases"
         android:layout_width="380dp"
         android:layout_height="829dp"
-        android:background="#80000000"
+        android:background="#CC171B34"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.478"
