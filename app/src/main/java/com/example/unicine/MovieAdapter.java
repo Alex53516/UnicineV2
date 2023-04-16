@@ -21,10 +21,13 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
 
     private List<String> movieTitles;
     private List<String> imageDrawableNames; // Cambiar a nombres de drawables
+    private List<String> cine;
 
-    public MovieAdapter(List<String> movieTitles, List<String> imageDrawableNames) {
+
+    public MovieAdapter(List<String> movieTitles, List<String> imageDrawableNames, List<String> cineIds) {
         this.movieTitles = movieTitles;
         this.imageDrawableNames = imageDrawableNames;
+        this.cine = cineIds;
     }
 
     @NonNull
@@ -38,6 +41,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         String title = movieTitles.get(position);
         String drawableName = imageDrawableNames.get(position);
+        String idCine = cine.get(position);
         holder.movieTitle.setText(title);
 
         int resourceId = holder.itemView.getContext().getResources().getIdentifier(drawableName, "drawable", holder.itemView.getContext().getPackageName());
@@ -54,6 +58,8 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
             public void onClick(View v) {
                 Intent intent = new Intent(holder.itemView.getContext(), DescripionPelicula.class);
                 intent.putExtra("movieTitle", title);
+                intent.putExtra("idCine", idCine);
+
                 holder.itemView.getContext().startActivity(intent);
             }
         });

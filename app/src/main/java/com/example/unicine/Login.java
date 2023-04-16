@@ -90,8 +90,15 @@ public class Login extends AppCompatActivity {
 
         if (mAuth.getCurrentUser() != null) {
             // El usuario ya ha iniciado sesión, redirigirlo a la pantalla principal
-            startActivity(new Intent(this, PantallaPrincipal.class));
-            finish();
+
+            FirebaseUser user = mAuth.getCurrentUser();
+            assert user != null;
+            if (user.isEmailVerified()) {
+                startActivity(new Intent(this, PantallaPrincipal.class));
+                finish();
+            }
+
+
         }
 
         usarCorreo = true;

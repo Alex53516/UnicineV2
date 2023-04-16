@@ -1,5 +1,7 @@
 package com.example.unicine;
 
+import static android.content.ContentValues.TAG;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentTransaction;
@@ -7,6 +9,7 @@ import androidx.fragment.app.FragmentTransaction;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -35,7 +38,7 @@ public class DescripionPelicula extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_descripion_pelicula);
 
-        Drawable degradado = getResources().getDrawable(R.drawable.degradado_azul);
+        Drawable degradado = ContextCompat.getDrawable(this, R.drawable.degradado_azul);
         getWindow().setNavigationBarColor(Color.TRANSPARENT);
         getWindow().setStatusBarColor(Color.TRANSPARENT);
         getWindow().setBackgroundDrawable(degradado);
@@ -57,6 +60,10 @@ public class DescripionPelicula extends AppCompatActivity {
 
         // Recupera el título de la película del Intent
         String movieTitle = getIntent().getStringExtra("movieTitle");
+        String IdCine = getIntent().getStringExtra("idCine");
+        Log.d(TAG, "El id del cine es "+ IdCine);
+
+
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         CollectionReference peliculasRef = db.collection("peliculas");

@@ -32,18 +32,6 @@
         app:srcCompat="@drawable/round_field_grey" />
 
     <TextView
-        android:id="@+id/textViewVolverIniCrear"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Volver al inicio"
-        android:textColor="#314e52"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.949" />
-
-    <TextView
         android:id="@+id/textViewCrearCuentaEnCrear"
         android:layout_width="337dp"
         android:layout_height="51dp"

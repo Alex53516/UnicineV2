@@ -39,7 +39,7 @@ import java.util.concurrent.TimeUnit;
 public class CrearCuenta extends AppCompatActivity {
 
     EditText correo, usuario, contrasenyaNormal, contrasenyaNoVer, contrasenyaVer, telefono;
-    TextView crearCuenta, volverInicio;
+    TextView crearCuenta;
     ImageView ver, noVer;
     private FirebaseAuth mAuth;
 
@@ -59,14 +59,12 @@ public class CrearCuenta extends AppCompatActivity {
         ver = (ImageView) findViewById(R.id.imageViewVerContraCrear);
         noVer = (ImageView) findViewById(R.id.imageViewNoVerContraCrear);
         crearCuenta = (TextView) findViewById(R.id.textViewCrearCuentaEnCrear);
-        volverInicio = (TextView) findViewById(R.id.textViewVolverIniCrear);
         telefono = (EditText) findViewById(R.id.editTextTelefonoCrear);
 
 
         ver.setOnClickListener(this::onClick);
         noVer.setOnClickListener(this::onClick);
         crearCuenta.setOnClickListener(this::onClick);
-        volverInicio.setOnClickListener(this::onClick);
 
 
         correo.requestFocus();
@@ -174,6 +172,10 @@ public class CrearCuenta extends AppCompatActivity {
                                                             Log.w(TAG, "Error adding user data to Firestore", e);
                                                         }
                                                     });
+
+                                            Intent volverInicio = new Intent(getApplicationContext(), Login.class);
+                                            startActivity(volverInicio);
+
                                         } else {
                                             Log.w(TAG, "User is not authenticated.");
                                         }
@@ -189,16 +191,6 @@ public class CrearCuenta extends AppCompatActivity {
 
 
                 break;
-
-
-            case R.id.textViewVolverIniCrear:
-
-                Intent volverInicio = new Intent(this, Login.class);
-                startActivity(volverInicio);
-
-
-                break;
-
 
         }
 
