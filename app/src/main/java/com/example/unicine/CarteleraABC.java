@@ -50,7 +50,7 @@ public class CarteleraABC extends AppCompatActivity {
 
         FirebaseFirestore dba = FirebaseFirestore.getInstance();
 
-        /*for (int i = 16; i <= 42; i++) {
+        /*for (int i = 61; i <= 65; i++) {
             String id = String.valueOf(i);
             DocumentReference sesionRef = dba.collection("sesiones").document(id);
 
