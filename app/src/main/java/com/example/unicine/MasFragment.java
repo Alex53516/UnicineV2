@@ -57,6 +57,8 @@ public class MasFragment extends Fragment {
         MandarCorreo.setOnClickListener(this::onClick);
         twitter.setOnClickListener(this::onClick);
         facebook.setOnClickListener(this::onClick);
+        instagram.setOnClickListener(this::onClick);
+        youtube.setOnClickListener(this::onClick);
 
         return view;
     }
@@ -90,6 +92,12 @@ public class MasFragment extends Fragment {
 
             case R.id.textViewFacebook:
 
+            case R.id.textViewYoutube:
+
+
+            case R.id.textViewInstagram:
+
+
                 Toast.makeText(getContext(), "Este enlace no esta disponible por el momento", Toast.LENGTH_SHORT).show();
 
                 break;
@@ -102,22 +110,6 @@ public class MasFragment extends Fragment {
                 startActivity(intentTwitter);
 
                 break;
-
-            case R.id.textViewYoutube:
-
-                Toast.makeText(getContext(), "Este enlace no esta disponible por el momento", Toast.LENGTH_SHORT).show();
-
-
-                break;
-
-
-            case R.id.textViewInstagram:
-
-
-                Toast.makeText(getContext(), "Este enlace no esta disponible por el momento", Toast.LENGTH_SHORT).show();
-
-                break;
-
 
 
         }
