@@ -105,6 +105,7 @@ public class MasFragment extends Fragment {
 
             case R.id.textViewYoutube:
 
+                Toast.makeText(getContext(), "Este enlace no esta disponible por el momento", Toast.LENGTH_SHORT).show();
 
 
                 break;
@@ -113,6 +114,7 @@ public class MasFragment extends Fragment {
             case R.id.textViewInstagram:
 
 
+                Toast.makeText(getContext(), "Este enlace no esta disponible por el momento", Toast.LENGTH_SHORT).show();
 
                 break;
 
