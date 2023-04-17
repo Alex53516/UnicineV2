@@ -159,7 +159,7 @@ public class CrearCuenta extends AppCompatActivity {
                                             userData.put("email", email);
                                             userData.put("name", name);
                                             userData.put("phone", phone);
-                                            db.collection("users").document(uid).set(userData)
+                                            db.collection("users").document(email).set(userData)
                                                     .addOnSuccessListener(new OnSuccessListener<Void>() {
                                                         @Override
                                                         public void onSuccess(Void aVoid) {
