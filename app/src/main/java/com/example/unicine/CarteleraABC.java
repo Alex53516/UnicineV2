@@ -18,6 +18,7 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -26,7 +27,9 @@ import com.google.firebase.firestore.QuerySnapshot;
 import org.checkerframework.checker.nullness.qual.NonNull;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class CarteleraABC extends AppCompatActivity {
 
@@ -45,6 +48,25 @@ public class CarteleraABC extends AppCompatActivity {
         List<String> cine = new ArrayList<>();
 
 
+        FirebaseFirestore dba = FirebaseFirestore.getInstance();
+
+        /*for (int i = 16; i <= 42; i++) {
+            String id = String.valueOf(i);
+            DocumentReference sesionRef = dba.collection("sesiones").document(id);
+
+            Map<String, Object> sesionData = new HashMap<>();
+            sesionData.put("Fecha", "14/6/2023");
+            sesionData.put("Hora", "21:00");
+            sesionData.put("IdPelicula", "1");
+            sesionData.put("IdSala", "1");
+            sesionData.put("AsientosReservados", new ArrayList<String>());
+
+            sesionRef.set(sesionData).addOnSuccessListener(aVoid -> {
+                System.out.println("Documento " + id + " agregado correctamente");
+            }).addOnFailureListener(e -> {
+                System.out.println("Error al agregar el documento " + id);
+            });
+        }*/
 
         if (valor.equals("1")) {
 

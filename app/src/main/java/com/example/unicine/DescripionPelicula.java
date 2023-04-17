@@ -34,11 +34,12 @@ import java.util.List;
 
 public class DescripionPelicula extends AppCompatActivity {
 
-    TextView titulo, dur, gen, sinop, edadReco, irPases;
+    TextView titulo, dur, gen, sinop, edadReco, irPases, noDisponible;
     FrameLayout frm;
     List<String> fechaPeliculas = new ArrayList<>();
     List<String> horaPeliculas = new ArrayList<>();
     List<String> sala = new ArrayList<>();
+    View backgroundView;
 
 
     @Override
@@ -60,10 +61,14 @@ public class DescripionPelicula extends AppCompatActivity {
         frm = (FrameLayout) findViewById(R.id.framePases);
         irPases = (TextView) findViewById(R.id.textViewIrPases);
         ImageView imageView = findViewById(R.id.imageViewPeli); // Obtener la ImageView desde el layout de tu actividad
+        backgroundView = (View) findViewById(R.id.backgroundView);
+        noDisponible = (TextView) findViewById(R.id.textViewSinDisponibilidad);
 
         frm.setVisibility(View.INVISIBLE);
+        noDisponible.setVisibility(View.INVISIBLE);
 
         irPases.setOnClickListener(this::onClick);
+        backgroundView.setOnClickListener(this::onClick);
 
 
 
@@ -222,12 +227,27 @@ public class DescripionPelicula extends AppCompatActivity {
                 fragmentTransaction1.commit();
 
                 frm.setVisibility(View.VISIBLE);
+
+                if (fechaPeliculas.isEmpty() && horaPeliculas.isEmpty() && sala.isEmpty()) {
+
+                    noDisponible.setVisibility(View.VISIBLE);
+
+                }
+
+
+                break;
+
+            case R.id.backgroundView:
+
+                frm.setVisibility(View.INVISIBLE);
+                noDisponible.setVisibility(View.INVISIBLE);
+
+
+                break;
+
+
         }
 
     }
-
-
-
-
 
 }
