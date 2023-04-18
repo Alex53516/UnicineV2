@@ -10,18 +10,28 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import org.checkerframework.checker.nullness.qual.NonNull;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class DatosAdapter extends RecyclerView.Adapter<DatosAdapter.ViewHolder> {
+ public class DatosAdapter extends RecyclerView.Adapter<DatosAdapter.ViewHolder> {
 
     private List<String> dates;
     private List<String> times;
     private List<String> names;
+     private List<String> idCines;
+     private List<String> idSesion;
 
-    public DatosAdapter(List<String> dates, List<String> times, List<String> names) {
+
+
+
+     public DatosAdapter(List<String> dates, List<String> times, List<String> names, List<String> idcin , List<String> idsesi) {
         this.dates = dates;
         this.times = times;
         this.names = names;
+        this.idCines = idcin;
+        this.idSesion = idsesi;
+
+
     }
 
     @NonNull
@@ -36,11 +46,34 @@ public class DatosAdapter extends RecyclerView.Adapter<DatosAdapter.ViewHolder> 
         String date = dates.get(position);
         String time = times.get(position);
         String name = names.get(position);
+        String idC = idCines.get(0);
+        String idS = idSesion.get(position);
+
+
+
+
 
         holder.dateText.setText("Fecha: " + date);
         holder.timeText.setText("Hora: " + time);
         holder.nameText.setText("Sala: " + name);
+
+        // Agrega un listener de clics
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(holder.itemView.getContext(), SeleccionAsiento.class);
+                intent.putExtra("idCines", idC);
+                intent.putExtra("idSesiones", idS);
+                intent.putExtra("nombreSala", name);
+
+
+
+
+                holder.itemView.getContext().startActivity(intent);
+            }
+        });
     }
+
 
     @Override
     public int getItemCount() {

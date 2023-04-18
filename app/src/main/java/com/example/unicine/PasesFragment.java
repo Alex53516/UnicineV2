@@ -55,6 +55,10 @@ public class PasesFragment extends Fragment {
             ArrayList<String> fechaPeliculas = getArguments().getStringArrayList("fechaPeliculas");
             ArrayList<String> horaPeliculas = getArguments().getStringArrayList("horaPeliculas");
             ArrayList<String> sala = getArguments().getStringArrayList("sala");
+            ArrayList<String> idCines = getArguments().getStringArrayList("idCine");
+            ArrayList<String> idSesion = getArguments().getStringArrayList("idSesion");
+
+
 
             for (int i = 0; i < fechaPeliculas.size(); i++) {
                 String fecha = fechaPeliculas.get(i);
@@ -65,7 +69,9 @@ public class PasesFragment extends Fragment {
             }
 
 
-            DatosAdapter adapterDatos = new DatosAdapter(fechaPeliculas, horaPeliculas, sala);
+
+
+            DatosAdapter adapterDatos = new DatosAdapter(fechaPeliculas, horaPeliculas, sala, idCines, idSesion);
             RecyclerView recyclerView = view.findViewById(R.id.recycler_sesion);
             recyclerView.setAdapter(adapterDatos);
             recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));

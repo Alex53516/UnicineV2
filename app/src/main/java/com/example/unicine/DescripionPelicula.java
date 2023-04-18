@@ -39,6 +39,10 @@ public class DescripionPelicula extends AppCompatActivity {
     List<String> fechaPeliculas = new ArrayList<>();
     List<String> horaPeliculas = new ArrayList<>();
     List<String> sala = new ArrayList<>();
+    List<String> idsCines = new ArrayList<>();
+    List<String> idsSesiones = new ArrayList<>();
+
+
     View backgroundView;
 
 
@@ -76,6 +80,7 @@ public class DescripionPelicula extends AppCompatActivity {
         String movieTitle = getIntent().getStringExtra("movieTitle");
         String IdCine = getIntent().getStringExtra("idCine");
         Log.d(TAG, "El id del cine es "+ IdCine);
+        idsCines.add(IdCine);
 
 
 
@@ -130,9 +135,11 @@ public class DescripionPelicula extends AppCompatActivity {
                                                                     String hora = sesionDocument.getString("Hora");
                                                                     String idPelicula = sesionDocument.getString("IdPelicula");
                                                                     String idSala = sesionDocument.getString("IdSala");
+                                                                    String idSesion = sesionDocument.getId();
 
                                                                     fechaPeliculas.add(fecha);
                                                                     horaPeliculas.add(hora);
+                                                                    idsSesiones.add(idSesion);
 
                                                                     // Consultar la colección de salas con el idSala
                                                                     DocumentReference salaRef = db.collection("salas").document(idSala);
@@ -219,6 +226,11 @@ public class DescripionPelicula extends AppCompatActivity {
                 bundle.putStringArrayList("fechaPeliculas", (ArrayList<String>) fechaPeliculas);
                 bundle.putStringArrayList("horaPeliculas", (ArrayList<String>) horaPeliculas);
                 bundle.putStringArrayList("sala", (ArrayList<String>) sala);
+                bundle.putStringArrayList("idCine", (ArrayList<String>) idsCines);
+                bundle.putStringArrayList("idSesion", (ArrayList<String>) idsSesiones);
+
+
+
 
                 PasesFragment fragmentPases = new PasesFragment();
                 fragmentPases.setArguments(bundle);//le paso los argumentos
