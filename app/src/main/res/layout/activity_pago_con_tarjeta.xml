@@ -9,6 +9,50 @@
 
 
     <TextView
+        android:id="@+id/textViewRealizarPago"
+        android:layout_width="337dp"
+        android:layout_height="51dp"
+        android:background="@drawable/round_button_rojo"
+        android:textAlignment="center"
+        android:textColor="#FFFFFF"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.486"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.838" />
+
+    <EditText
+        android:id="@+id/my_edittextCodigoTarjeta"
+        android:layout_width="353dp"
+        android:layout_height="48dp"
+        android:background="@drawable/rectangulo_blanco"
+        android:gravity="center_vertical"
+        android:hint="CVV"
+        android:padding="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:maxLength="3"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.673" />
+
+    <TextView
+        android:id="@+id/textView23"
+        android:layout_width="166dp"
+        android:layout_height="34dp"
+        android:text="Código de verificación"
+        android:textAlignment="viewStart"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.122"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.622" />
+
+    <TextView
         android:id="@+id/textView22"
         android:layout_width="166dp"
         android:layout_height="34dp"
@@ -37,7 +81,7 @@
         app:layout_constraintVertical_bias="0.378" />
 
     <EditText
-        android:id="@+id/my_edittext"
+        android:id="@+id/my_edittextNombreTarjeta"
         android:layout_width="353dp"
         android:layout_height="48dp"
         android:background="@drawable/rectangulo_blanco"
@@ -119,6 +163,7 @@
         app:layout_constraintVertical_bias="0.255" />
 
     <EditText
+        android:id="@+id/my_editText_numeroTarjeta"
         android:layout_width="353dp"
         android:layout_height="48dp"
         android:background="@drawable/rectangulo_blanco"
@@ -127,10 +172,26 @@
         android:inputType="phone"
         android:padding="8dp"
         android:textSize="16sp"
+        android:maxLength="16"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.517"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.424" />
+
+    <TextView
+        android:id="@+id/textViewFechaTarjeta"
+        android:layout_width="353dp"
+        android:layout_height="48dp"
+        android:background="@drawable/rectangulo_blanco"
+        android:gravity="center_vertical"
+        android:hint="DD/MM/AAAA"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.517"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.549" />
 </androidx.constraintlayout.widget.ConstraintLayout>
