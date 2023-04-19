@@ -7,6 +7,50 @@
     android:background="@color/azul"
     tools:context=".PagoConTarjeta">
 
+
+    <TextView
+        android:id="@+id/textView22"
+        android:layout_width="166dp"
+        android:layout_height="34dp"
+        android:text="Fecha de expiración:"
+        android:textAlignment="viewStart"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.122"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.499" />
+
+    <TextView
+        android:id="@+id/textView21"
+        android:layout_width="166dp"
+        android:layout_height="34dp"
+        android:text="Número de la tarjeta :"
+        android:textAlignment="viewStart"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.122"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.378" />
+
+    <EditText
+        android:id="@+id/my_edittext"
+        android:layout_width="353dp"
+        android:layout_height="48dp"
+        android:background="@drawable/rectangulo_blanco"
+        android:gravity="center_vertical"
+        android:hint="Nombre   Apellido1   Apellido2"
+        android:padding="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.517"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.3" />
+
     <TextView
         android:id="@+id/textViewOperacionResul"
         android:layout_width="137dp"
@@ -51,7 +95,7 @@
         android:layout_width="137dp"
         android:layout_height="36dp"
         android:text="Total a pagar : "
-        android:textAlignment="center"
+        android:textAlignment="viewStart"
         android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -64,13 +108,29 @@
         android:id="@+id/textView20"
         android:layout_width="166dp"
         android:layout_height="34dp"
-        android:text="Titular de la tarjeta"
-        android:textAlignment="center"
+        android:text="Titular de la tarjeta :"
+        android:textAlignment="viewStart"
         android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.122"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.263" />
+        app:layout_constraintVertical_bias="0.255" />
+
+    <EditText
+        android:layout_width="353dp"
+        android:layout_height="48dp"
+        android:background="@drawable/rectangulo_blanco"
+        android:gravity="center_vertical"
+        android:hint="7238  8293  1302  2837"
+        android:inputType="phone"
+        android:padding="8dp"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.517"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.424" />
 </androidx.constraintlayout.widget.ConstraintLayout>
