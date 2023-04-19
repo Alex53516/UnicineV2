@@ -1,5 +1,7 @@
 package com.example.unicine;
 
+import static android.content.ContentValues.TAG;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
@@ -12,8 +14,14 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -22,6 +30,8 @@ import org.checkerframework.checker.nullness.qual.NonNull;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 public class MetodosDePago extends AppCompatActivity {
 
@@ -29,6 +39,11 @@ public class MetodosDePago extends AppCompatActivity {
     TextView cancelar;
     String IdSesionCerra;
     ArrayList<String> numeroButacasCerra;
+
+    String pasarIdCine;
+    String pasarIdSesion;
+    String pasarSala;
+    String [] pasarNumeroButcasArray;
 
 
     @Override
@@ -52,6 +67,14 @@ public class MetodosDePago extends AppCompatActivity {
         String Sala = getIntent().getStringExtra("nombreSala");
         String[] numeroButacasArray = getIntent().getStringArrayExtra("numeroButacas");
         ArrayList<String> numeroButacas = new ArrayList<>(Arrays.asList(numeroButacasArray));
+
+        pasarIdCine = IdCine;
+        pasarIdSesion = IdSesion;
+        pasarSala = Sala;
+        pasarNumeroButcasArray = numeroButacasArray;
+
+        tarjeta.setOnClickListener(this::onClick);
+        efectivo.setOnClickListener(this::onClick);
 
 
         IdSesionCerra = IdSesion;
@@ -139,6 +162,36 @@ public class MetodosDePago extends AppCompatActivity {
 
     public void onBackPressed() {
         // No llames a super.onBackPressed() para evitar que regrese a la pantalla anterior
+    }
+
+
+    public void onClick(View v) {
+
+        switch (v.getId()) {
+
+
+            case R.id.imageViewTarjeta:
+
+                Intent tarjeta = new Intent(this, PagoConTarjeta.class);
+
+                tarjeta.putExtra("idCine", pasarIdCine);
+                tarjeta.putExtra("idSesione", pasarIdSesion);
+                tarjeta.putExtra("nombreSala", pasarSala);
+                tarjeta.putExtra("numeroButacas", pasarNumeroButcasArray);
+
+                startActivity(tarjeta);
+
+                break;
+
+            case R.id.imageViewEfectivo:
+
+
+
+
+                break;
+
+        }
+
     }
 
 }

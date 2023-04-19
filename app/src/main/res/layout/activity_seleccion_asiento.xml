@@ -748,7 +748,7 @@
 
     <TextView
         android:id="@+id/textViewNomSala"
-        android:layout_width="268dp"
+        android:layout_width="332dp"
         android:layout_height="43dp"
         android:textAlignment="center"
         android:textColor="#FFFFFF"
