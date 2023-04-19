@@ -6,6 +6,7 @@ import androidx.annotation.DrawableRes;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -48,10 +49,6 @@ public class SeleccionAsiento extends AppCompatActivity {
         String Sala = getIntent().getStringExtra("nombreSala");
 
         Log.d(TAG, "El id del cine es "+ IdCine + " El id de la sesion es "+ IdSesion);
-
-
-
-
 
 
         Titulo = (TextView) findViewById(R.id.textViewNomSala);
@@ -180,13 +177,35 @@ public class SeleccionAsiento extends AppCompatActivity {
                             public void onSuccess(Void aVoid) {
                                 Log.d("Firestore", "Elementos agregados con éxito a AsientosReservados");
 
+                                Intent irAmetodosDePago = new Intent(getApplicationContext(), MetodosDePago.class);
+
+                                irAmetodosDePago.putExtra("idCine", IdCine);
+                                irAmetodosDePago.putExtra("idSesione", IdSesion);
+                                irAmetodosDePago.putExtra("nombreSala", Sala);
+                                String[] numeroButacasArray = numeroButacas.toArray(new String[0]);
+                                irAmetodosDePago.putExtra("numeroButacas", numeroButacasArray);
+
+
+
                                 if (contadorAsientos > 1){
 
-                                    Toast.makeText(getApplicationContext(), "Asientos reservados correctamente", Toast.LENGTH_SHORT).show();
+                                    startActivity(irAmetodosDePago);
+
 
                                 }else{
 
-                                    Toast.makeText(getApplicationContext(), "Asiento reservado correctamente", Toast.LENGTH_SHORT).show();
+                                    if (contadorAsientos == 0){
+
+                                        Toast.makeText(getApplicationContext(), "No se ha seleccionado ningun asiento", Toast.LENGTH_SHORT).show();
+
+
+                                    }else{
+
+                                        startActivity(irAmetodosDePago);
+                                    }
+
+
+
 
                                 }
 
