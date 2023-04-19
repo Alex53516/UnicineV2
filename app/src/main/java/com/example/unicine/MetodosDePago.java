@@ -37,8 +37,6 @@ public class MetodosDePago extends AppCompatActivity {
 
     ImageView tarjeta, efectivo;
     TextView cancelar;
-    String IdSesionCerra;
-    ArrayList<String> numeroButacasCerra;
 
     String pasarIdCine;
     String pasarIdSesion;
@@ -59,14 +57,12 @@ public class MetodosDePago extends AppCompatActivity {
 
         tarjeta = (ImageView) findViewById(R.id.imageViewTarjeta);
         efectivo = (ImageView) findViewById(R.id.imageViewEfectivo);
-        cancelar = (TextView) findViewById(R.id.textViewCancelarPago);
 
 
         String IdCine = getIntent().getStringExtra("idCine");
         String IdSesion = getIntent().getStringExtra("idSesione");
         String Sala = getIntent().getStringExtra("nombreSala");
         String[] numeroButacasArray = getIntent().getStringArrayExtra("numeroButacas");
-        ArrayList<String> numeroButacas = new ArrayList<>(Arrays.asList(numeroButacasArray));
 
         pasarIdCine = IdCine;
         pasarIdSesion = IdSesion;
@@ -77,122 +73,35 @@ public class MetodosDePago extends AppCompatActivity {
         efectivo.setOnClickListener(this::onClick);
 
 
-        IdSesionCerra = IdSesion;
-        numeroButacasCerra = numeroButacas;
-
-        cancelar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Inicializa FirebaseFirestore
-                FirebaseFirestore db = FirebaseFirestore.getInstance();
-
-                // Obtiene la referencia al documento de la sesión que deseas modificar
-                DocumentReference sessionRef = db.collection("sesiones").document(IdSesion);
-
-                // Elimina los elementos del array asientos del atributo NumeroAsientos en Firestore
-                sessionRef.update("AsientosReservados", FieldValue.arrayRemove(numeroButacas.toArray()))
-                        .addOnSuccessListener(new OnSuccessListener<Void>() {
-                            @Override
-                            public void onSuccess(Void aVoid) {
-                                Log.d("Firestore", "Elementos eliminados con éxito de NumeroAsientos");
-
-                                Intent cancelarTransaccion = new Intent(getApplicationContext(), PantallaPrincipal.class);
-                                startActivity(cancelarTransaccion);
-
-                                Toast.makeText(getApplicationContext(), "La transacción se ha cancelado", Toast.LENGTH_SHORT).show();
+    }
 
 
-                                // Aquí puedes agregar acciones adicionales después de eliminar los asientos correctamente
-                                // Por ejemplo, mostrar un mensaje o redirigir a otra actividad
-                            }
-                        })
-                        .addOnFailureListener(new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception e) {
-                                Log.w("Firestore", "Error al eliminar elementos de NumeroAsientos", e);
+    public void onClick(View v){
 
-                                // Aquí puedes agregar acciones adicionales en caso de que ocurra un error al eliminar los asientos
-                                // Por ejemplo, mostrar un mensaje de error
-                            }
-                        });
+            switch (v.getId()) {
+
+
+                case R.id.imageViewTarjeta:
+
+                    Intent tarjeta = new Intent(this, PagoConTarjeta.class);
+
+                    tarjeta.putExtra("idCine", pasarIdCine);
+                    tarjeta.putExtra("idSesione", pasarIdSesion);
+                    tarjeta.putExtra("nombreSala", pasarSala);
+                    tarjeta.putExtra("numeroButacas", pasarNumeroButcasArray);
+
+                    startActivity(tarjeta);
+
+                    break;
+
+                case R.id.imageViewEfectivo:
+
+
+                    break;
+
             }
-        });
-
-    }
-
-    @Override
-    public void onTrimMemory(int level) {
-        super.onTrimMemory(level);
-
-        if (level == ComponentCallbacks2.TRIM_MEMORY_UI_HIDDEN) {
-            // Aquí puedes agregar el código que deseas ejecutar cuando la aplicación se cierra
-            // Por ejemplo, guardar los cambios, detener una tarea en segundo plano, etc.
-
-            // Inicializa FirebaseFirestore
-            FirebaseFirestore db = FirebaseFirestore.getInstance();
-
-
-            // Obtiene la referencia al documento de la sesión que deseas modificar
-            DocumentReference sessionRef = db.collection("sesiones").document(IdSesionCerra);
-
-            // Elimina los elementos del array asientos del atributo NumeroAsientos en Firestore
-            sessionRef.update("AsientosReservados", FieldValue.arrayRemove(numeroButacasCerra.toArray()))
-                    .addOnSuccessListener(new OnSuccessListener<Void>() {
-                        @Override
-                        public void onSuccess(Void aVoid) {
-                            Log.d("Firestore", "Elementos eliminados con éxito de NumeroAsientos");
-
-                            // Aquí puedes agregar acciones adicionales después de eliminar los asientos correctamente
-                            // Por ejemplo, mostrar un mensaje o redirigir a otra actividad
-                        }
-                    })
-                    .addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            Log.w("Firestore", "Error al eliminar elementos de NumeroAsientos", e);
-
-                            // Aquí puedes agregar acciones adicionales en caso de que ocurra un error al eliminar los asientos
-                            // Por ejemplo, mostrar un mensaje de error
-                        }
-                    });
 
         }
     }
 
-
-    public void onBackPressed() {
-        // No llames a super.onBackPressed() para evitar que regrese a la pantalla anterior
-    }
-
-
-    public void onClick(View v) {
-
-        switch (v.getId()) {
-
-
-            case R.id.imageViewTarjeta:
-
-                Intent tarjeta = new Intent(this, PagoConTarjeta.class);
-
-                tarjeta.putExtra("idCine", pasarIdCine);
-                tarjeta.putExtra("idSesione", pasarIdSesion);
-                tarjeta.putExtra("nombreSala", pasarSala);
-                tarjeta.putExtra("numeroButacas", pasarNumeroButcasArray);
-
-                startActivity(tarjeta);
-
-                break;
-
-            case R.id.imageViewEfectivo:
-
-
-
-
-                break;
-
-        }
-
-    }
-
-}
 

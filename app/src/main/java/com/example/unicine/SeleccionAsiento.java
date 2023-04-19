@@ -163,28 +163,12 @@ public class SeleccionAsiento extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-
-                // Inicializa FirebaseFirestore
-                FirebaseFirestore db = FirebaseFirestore.getInstance();
-
-                // Obtiene la referencia al documento de la sesión que deseas modificar
-                DocumentReference sessionRef = db.collection("sesiones").document(IdSesion);
-
-                // Agrega los elementos del ArrayList asientos al array AsientosReservados en Firestore
-                sessionRef.update("AsientosReservados", FieldValue.arrayUnion(numeroButacas.toArray()))
-                        .addOnSuccessListener(new OnSuccessListener<Void>() {
-                            @Override
-                            public void onSuccess(Void aVoid) {
-                                Log.d("Firestore", "Elementos agregados con éxito a AsientosReservados");
-
-                                Intent irAmetodosDePago = new Intent(getApplicationContext(), MetodosDePago.class);
-
+                                Intent irAmetodosDePago = new Intent(getApplicationContext(), PagoConTarjeta.class);
                                 irAmetodosDePago.putExtra("idCine", IdCine);
                                 irAmetodosDePago.putExtra("idSesione", IdSesion);
                                 irAmetodosDePago.putExtra("nombreSala", Sala);
                                 String[] numeroButacasArray = numeroButacas.toArray(new String[0]);
                                 irAmetodosDePago.putExtra("numeroButacas", numeroButacasArray);
-
 
 
                                 if (contadorAsientos > 1){
@@ -204,22 +188,8 @@ public class SeleccionAsiento extends AppCompatActivity {
                                         startActivity(irAmetodosDePago);
                                     }
 
-
-
-
                                 }
-
-
                             }
-                        })
-                        .addOnFailureListener(new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception e) {
-                                Log.w("Firestore", "Error al agregar elementos a AsientosReservados", e);
-                            }
-                        });
-
-            }
         });
 
 

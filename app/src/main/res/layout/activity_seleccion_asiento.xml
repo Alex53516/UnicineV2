@@ -748,17 +748,17 @@
 
     <TextView
         android:id="@+id/textViewNomSala"
-        android:layout_width="332dp"
-        android:layout_height="43dp"
+        android:layout_width="390dp"
+        android:layout_height="50dp"
         android:textAlignment="center"
         android:textColor="#FFFFFF"
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.496"
+        app:layout_constraintHorizontal_bias="0.476"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.031" />
+        app:layout_constraintVertical_bias="0.019" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
