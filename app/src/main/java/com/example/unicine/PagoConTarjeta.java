@@ -236,6 +236,21 @@ public class PagoConTarjeta extends AppCompatActivity {
                                                         public void onSuccess(DocumentReference documentReference) {
                                                             Log.d(TAG, "Documento añadido con ID: " + documentReference.getId());
 
+                                                            // Actualiza el documento del usuario en la colección "users" añadiendo el ID del ticket a la lista "idtickets"
+                                                            db.collection("users").document(userId)
+                                                                    .update("tickets", FieldValue.arrayUnion(documentReference.getId()))
+                                                                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                                        @Override
+                                                                        public void onSuccess(Void aVoid) {
+                                                                            Log.d(TAG, "idtickets actualizado con éxito");
+                                                                        }
+                                                                    })
+                                                                    .addOnFailureListener(new OnFailureListener() {
+                                                                        @Override
+                                                                        public void onFailure(@NonNull Exception e) {
+                                                                            Log.w(TAG, "Error al actualizar idtickets", e);
+                                                                        }
+                                                                    });
 
                                                             Intent pagado = new Intent(getApplicationContext(), PantallaPrincipal.class);
                                                             startActivity(pagado);
@@ -259,6 +274,7 @@ public class PagoConTarjeta extends AppCompatActivity {
                                     }
                                 }
                             });
+
                 }
 
             }

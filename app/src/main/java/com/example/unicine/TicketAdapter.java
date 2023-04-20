@@ -46,13 +46,12 @@ public class TicketAdapter extends RecyclerView.Adapter<TicketAdapter.ViewHolder
         String showDate = showDates.get(position);
         String showTime = showTimes.get(position);
         String reservedSeat = reservedSeats.get(position);
-        String userName = userNames.get(position);
+        String userName = userNames.get(0);
         String mooviName = moovieNames.get(position);
 
         holder.tvCinemaName.setText("Cine: " + cinemaName);
         holder.tvRoomName.setText("Sala: " + roomName);
-        holder.tvShowDate.setText("Fecha: " + showDate);
-        holder.tvShowTime.setText("Hora: " + showTime);
+        holder.tvShowDate.setText("Fecha y Hora: " + showDate + " " + showTime);
         holder.tvReservedSeats.setText("Asientos: " + reservedSeat);
         holder.tvUserName.setText("Cliente: " + userName);
         holder.tvMoovieName.setText("Película: " + mooviName);
@@ -76,7 +75,6 @@ public class TicketAdapter extends RecyclerView.Adapter<TicketAdapter.ViewHolder
         TextView tvCinemaName;
         TextView tvRoomName;
         TextView tvShowDate;
-        TextView tvShowTime;
         TextView tvReservedSeats;
         TextView tvUserName;
         TextView tvMoovieName;
@@ -87,7 +85,6 @@ public class TicketAdapter extends RecyclerView.Adapter<TicketAdapter.ViewHolder
             tvCinemaName = itemView.findViewById(R.id.tv_cinema_name);
             tvRoomName = itemView.findViewById(R.id.tv_room_name);
             tvShowDate = itemView.findViewById(R.id.tv_show_date);
-            tvShowTime = itemView.findViewById(R.id.tv_show_time);
             tvReservedSeats = itemView.findViewById(R.id.tv_reserved_seats);
             tvUserName = itemView.findViewById(R.id.tv_user_name);
             tvMoovieName = itemView.findViewById(R.id.tv_movie_name);

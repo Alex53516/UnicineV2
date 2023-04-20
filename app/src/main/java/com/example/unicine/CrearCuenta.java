@@ -32,6 +32,7 @@ import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
@@ -159,6 +160,7 @@ public class CrearCuenta extends AppCompatActivity {
                                             userData.put("email", email);
                                             userData.put("name", name);
                                             userData.put("phone", phone);
+                                            userData.put("tickets", new ArrayList<String>());
                                             db.collection("users").document(email).set(userData)
                                                     .addOnSuccessListener(new OnSuccessListener<Void>() {
                                                         @Override
