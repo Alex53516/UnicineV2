@@ -19,14 +19,17 @@ public class TicketAdapter extends RecyclerView.Adapter<TicketAdapter.ViewHolder
     private List<String> showTimes;
     private List<String> reservedSeats;
     private List<String> userNames;
+    private List<String> moovieNames;
 
-    public TicketAdapter(List<String> cinemaNames, List<String> roomNames, List<String> showDates, List<String> showTimes, List<String> reservedSeats, List<String> userNames) {
+    public TicketAdapter(List<String> cinemaNames, List<String> roomNames, List<String> showDates, List<String> showTimes, List<String> reservedSeats, List<String> userNames, List<String> moovieNames) {
         this.cinemaNames = cinemaNames;
         this.roomNames = roomNames;
         this.showDates = showDates;
         this.showTimes = showTimes;
         this.reservedSeats = reservedSeats;
         this.userNames = userNames;
+        this.moovieNames = moovieNames;
+
     }
 
     @NonNull
@@ -44,13 +47,16 @@ public class TicketAdapter extends RecyclerView.Adapter<TicketAdapter.ViewHolder
         String showTime = showTimes.get(position);
         String reservedSeat = reservedSeats.get(position);
         String userName = userNames.get(position);
+        String mooviName = moovieNames.get(position);
 
-        holder.tvCinemaName.setText(cinemaName);
-        holder.tvRoomName.setText(roomName);
-        holder.tvShowDate.setText(showDate);
-        holder.tvShowTime.setText(showTime);
-        holder.tvReservedSeats.setText(reservedSeat);
-        holder.tvUserName.setText(userName);
+        holder.tvCinemaName.setText("Cine: " + cinemaName);
+        holder.tvRoomName.setText("Sala: " + roomName);
+        holder.tvShowDate.setText("Fecha: " + showDate);
+        holder.tvShowTime.setText("Hora: " + showTime);
+        holder.tvReservedSeats.setText("Asientos: " + reservedSeat);
+        holder.tvUserName.setText("Cliente: " + userName);
+        holder.tvMoovieName.setText("Película: " + mooviName);
+
 
         // Agrega un listener de clics si lo necesitas
         holder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -73,6 +79,8 @@ public class TicketAdapter extends RecyclerView.Adapter<TicketAdapter.ViewHolder
         TextView tvShowTime;
         TextView tvReservedSeats;
         TextView tvUserName;
+        TextView tvMoovieName;
+
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -82,6 +90,7 @@ public class TicketAdapter extends RecyclerView.Adapter<TicketAdapter.ViewHolder
             tvShowTime = itemView.findViewById(R.id.tv_show_time);
             tvReservedSeats = itemView.findViewById(R.id.tv_reserved_seats);
             tvUserName = itemView.findViewById(R.id.tv_user_name);
+            tvMoovieName = itemView.findViewById(R.id.tv_movie_name);
         }
     }
 }
