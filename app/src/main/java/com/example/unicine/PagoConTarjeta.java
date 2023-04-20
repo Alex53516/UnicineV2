@@ -227,7 +227,6 @@ public class PagoConTarjeta extends AppCompatActivity {
                                             ticket.put("idSesion", idSesione);
                                             ticket.put("idUsuario", userId);
                                             ticket.put("asientos", numeroButacasCoger);
-                                            ticket.put("metodoPago", "Tarjeta");
 
                                             // Agrega un nuevo documento a la colección "ticket" con los atributos y valores especificados
                                             db.collection("ticket")

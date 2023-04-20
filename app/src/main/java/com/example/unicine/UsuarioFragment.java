@@ -122,6 +122,17 @@ public class UsuarioFragment extends Fragment {
             }
         });
 
+        reservas.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent intent = new Intent(getContext(), Reservas.class);
+
+                startActivity(intent);
+            }
+        });
+
+
         return view;
 
     }

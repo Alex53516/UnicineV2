@@ -7,29 +7,19 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.ImageView;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.resource.bitmap.CenterCrop;
-import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
 
 import org.checkerframework.checker.nullness.qual.NonNull;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class CarteleraABC extends AppCompatActivity {
 
@@ -102,7 +92,7 @@ public class CarteleraABC extends AppCompatActivity {
                                                     cine.add(id);
 
                                                     MovieAdapter movieAdapter = new MovieAdapter(movieTitles, imageMovies, cine);
-                                                    RecyclerView recyclerView = findViewById(R.id.recycler_view);
+                                                    RecyclerView recyclerView = findViewById(R.id.recycler_view3);
                                                     recyclerView.setAdapter(movieAdapter);
                                                     recyclerView.setLayoutManager(new LinearLayoutManager(CarteleraABC.this));
                                                 }
@@ -153,7 +143,7 @@ public class CarteleraABC extends AppCompatActivity {
 
 
                                                     MovieAdapter movieAdapter = new MovieAdapter(movieTitles, imageMovies, cine);
-                                                    RecyclerView recyclerView = findViewById(R.id.recycler_view);
+                                                    RecyclerView recyclerView = findViewById(R.id.recycler_view3);
                                                     recyclerView.setAdapter(movieAdapter);
                                                     recyclerView.setLayoutManager(new LinearLayoutManager(CarteleraABC.this));
                                                 }
@@ -203,7 +193,7 @@ public class CarteleraABC extends AppCompatActivity {
 
 
                                                     MovieAdapter movieAdapter = new MovieAdapter(movieTitles, imageMovies, cine);
-                                                    RecyclerView recyclerView = findViewById(R.id.recycler_view);
+                                                    RecyclerView recyclerView = findViewById(R.id.recycler_view3);
                                                     recyclerView.setAdapter(movieAdapter);
                                                     recyclerView.setLayoutManager(new LinearLayoutManager(CarteleraABC.this));
                                                 }
@@ -253,7 +243,7 @@ public class CarteleraABC extends AppCompatActivity {
 
 
                                                     MovieAdapter movieAdapter = new MovieAdapter(movieTitles, imageMovies, cine);
-                                                    RecyclerView recyclerView = findViewById(R.id.recycler_view);
+                                                    RecyclerView recyclerView = findViewById(R.id.recycler_view3);
                                                     recyclerView.setAdapter(movieAdapter);
                                                     recyclerView.setLayoutManager(new LinearLayoutManager(CarteleraABC.this));
                                                 }
@@ -303,7 +293,7 @@ public class CarteleraABC extends AppCompatActivity {
 
 
                                                     MovieAdapter movieAdapter = new MovieAdapter(movieTitles, imageMovies, cine);
-                                                    RecyclerView recyclerView = findViewById(R.id.recycler_view);
+                                                    RecyclerView recyclerView = findViewById(R.id.recycler_view3);
                                                     recyclerView.setAdapter(movieAdapter);
                                                     recyclerView.setLayoutManager(new LinearLayoutManager(CarteleraABC.this));
                                                 }
@@ -354,7 +344,7 @@ public class CarteleraABC extends AppCompatActivity {
 
 
                                                     MovieAdapter movieAdapter = new MovieAdapter(movieTitles, imageMovies, cine);
-                                                    RecyclerView recyclerView = findViewById(R.id.recycler_view);
+                                                    RecyclerView recyclerView = findViewById(R.id.recycler_view3);
                                                     recyclerView.setAdapter(movieAdapter);
                                                     recyclerView.setLayoutManager(new LinearLayoutManager(CarteleraABC.this));
                                                 }
