@@ -93,7 +93,8 @@ public class Reservas extends AppCompatActivity {
 
                                 if (ticketsID.size() == 0){
 
-                                    sinTiquet.setVisibility(View.VISIBLE);
+                                    sinTiquet.setVisibility(View.VISIBLE
+                                    );
                                 }
 
                                 assert ticketsID != null;

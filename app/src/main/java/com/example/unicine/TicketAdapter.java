@@ -57,11 +57,12 @@ public class TicketAdapter extends RecyclerView.Adapter<TicketAdapter.ViewHolder
         holder.tvMoovieName.setText("Película: " + mooviName);
 
 
-        // Agrega un listener de clics si lo necesitas
+        // Agrega un listener de clics
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Implementa la acción que deseas realizar al hacer clic en un elemento de la lista
+                Intent intent = new Intent(holder.itemView.getContext(), VisualizarTicket.class);
+                holder.itemView.getContext().startActivity(intent);
             }
         });
     }
