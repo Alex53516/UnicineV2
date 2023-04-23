@@ -7,27 +7,242 @@
     android:background="@color/azul"
     tools:context=".VisualizarTicket">
 
-    <ImageView
-        android:id="@+id/imageView12"
-        android:layout_width="132dp"
-        android:layout_height="109dp"
+    <TextView
+        android:id="@+id/textViewCancerlarReserva"
+        android:layout_width="156dp"
+        android:layout_height="33dp"
+        android:text="Cancelar Ticket"
+        android:textAlignment="center"
+        android:textColor="@color/rojo"
+        android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.1"
+        app:layout_constraintHorizontal_bias="0.509"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.032"
+        app:layout_constraintVertical_bias="0.965" />
+
+    <TextView
+        android:id="@+id/textView34"
+        android:layout_width="115dp"
+        android:layout_height="29dp"
+        android:text="Película"
+        android:textAlignment="center"
+        android:textColor="@color/rojo"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.441" />
+
+    <TextView
+        android:id="@+id/textView32"
+        android:layout_width="115dp"
+        android:layout_height="29dp"
+        android:text="Sala"
+        android:textAlignment="center"
+        android:textColor="@color/rojo"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.945"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.441" />
+
+    <TextView
+        android:id="@+id/textView36"
+        android:layout_width="115dp"
+        android:layout_height="29dp"
+        android:text="Cine"
+        android:textAlignment="center"
+        android:textColor="@color/rojo"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.003"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.44" />
+
+    <TextView
+        android:id="@+id/textViewPeliculaTicket"
+        android:layout_width="121dp"
+        android:layout_height="138dp"
+        android:text="Harry Potter y las reliquias de la muerte parte 2"
+        android:textAlignment="center"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.551" />
+
+    <TextView
+        android:id="@+id/textViewCineTicket"
+        android:layout_width="122dp"
+        android:layout_height="62dp"
+        android:text="Cine Yelmo Campanar"
+        android:textAlignment="center"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.496" />
+
+    <TextView
+        android:id="@+id/textViewSalaTicket"
+        android:layout_width="122dp"
+        android:layout_height="62dp"
+        android:text="Sala Dolby Atmos"
+        android:textAlignment="center"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.955"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView30"
+        android:layout_width="115dp"
+        android:layout_height="29dp"
+        android:text="Asientos"
+        android:textAlignment="center"
+        android:textColor="@color/rojo"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.966"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.265" />
+
+    <TextView
+        android:id="@+id/textView28"
+        android:layout_width="115dp"
+        android:layout_height="29dp"
+        android:text="Cliente"
+        android:textAlignment="center"
+        android:textColor="@color/rojo"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.265" />
+
+    <TextView
+        android:id="@+id/textView26"
+        android:layout_width="115dp"
+        android:layout_height="29dp"
+        android:text="Hora"
+        android:textAlignment="center"
+        android:textColor="@color/rojo"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.037"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.265" />
+
+    <TextView
+        android:id="@+id/textViewHoraTicket"
+        android:layout_width="116dp"
+        android:layout_height="38dp"
+        android:text="16:00"
+        android:textAlignment="center"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.027"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.305" />
+
+    <TextView
+        android:id="@+id/textViewAsientosTicket"
+        android:layout_width="116dp"
+        android:layout_height="77dp"
+        android:text="3,21,42"
+        android:textAlignment="center"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.959"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.318" />
+
+    <TextView
+        android:id="@+id/textViewClienteTicket"
+        android:layout_width="142dp"
+        android:layout_height="36dp"
+        android:text="Antonio"
+        android:textAlignment="center"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.306" />
+
+    <TextView
+        android:id="@+id/textView24"
+        android:layout_width="115dp"
+        android:layout_height="29dp"
+        android:text="Fecha"
+        android:textAlignment="center"
+        android:textColor="@color/rojo"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.966"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.091" />
+
+    <TextView
+        android:id="@+id/textViewFechaTicket"
+        android:layout_width="136dp"
+        android:layout_height="33dp"
+        android:text="14/2/2023"
+        android:textAlignment="center"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.126" />
+
+    <ImageView
+        android:id="@+id/imageView12"
+        android:layout_width="239dp"
+        android:layout_height="185dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.093"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.023"
         app:srcCompat="@drawable/image" />
 
     <ImageView
         android:id="@+id/qr_code"
-        android:layout_width="328dp"
-        android:layout_height="350dp"
+        android:layout_width="228dp"
+        android:layout_height="240dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.493"
+        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.859"
+        app:layout_constraintVertical_bias="0.875"
         tools:srcCompat="@tools:sample/avatars" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

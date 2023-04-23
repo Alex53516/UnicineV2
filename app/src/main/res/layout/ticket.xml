@@ -16,28 +16,19 @@
         android:padding="16dp">
 
         <TextView
-            android:id="@+id/tv_movie_name"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textColor="@android:color/white"
-            android:textSize="18sp"
-            tools:text="Nombre de la película" />
-
-        <TextView
             android:id="@+id/tv_cinema_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="@android:color/white"
-            android:textSize="16sp"
-            tools:text="Nombre del Cine" />
-
+            android:textSize="18sp"
+            tools:text="Nombre del cine" />
         <TextView
-            android:id="@+id/tv_room_name"
+            android:id="@+id/tv_movie_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="@android:color/white"
             android:textSize="16sp"
-            tools:text="Nombre de la sala" />
+            tools:text="Nombre de la película" />
 
         <TextView
             android:id="@+id/tv_show_date"
@@ -47,7 +38,6 @@
             android:textSize="16sp"
             tools:text="Fecha y Hora" />
 
-
         <TextView
             android:id="@+id/tv_reserved_seats"
             android:layout_width="match_parent"
@@ -55,14 +45,6 @@
             android:textColor="@android:color/white"
             android:textSize="16sp"
             tools:text="Asientos reservados" />
-
-        <TextView
-            android:id="@+id/tv_user_name"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textColor="@android:color/white"
-            android:textSize="16sp"
-            tools:text="Nombre del usuario" />
 
     </LinearLayout>
 </androidx.cardview.widget.CardView>

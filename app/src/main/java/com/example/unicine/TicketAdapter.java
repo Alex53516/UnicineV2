@@ -50,10 +50,8 @@ public class TicketAdapter extends RecyclerView.Adapter<TicketAdapter.ViewHolder
         String mooviName = moovieNames.get(position);
 
         holder.tvCinemaName.setText("Cine: " + cinemaName);
-        holder.tvRoomName.setText("Sala: " + roomName);
         holder.tvShowDate.setText("Fecha y Hora: " + showDate + " " + showTime);
         holder.tvReservedSeats.setText("Asientos: " + reservedSeat);
-        holder.tvUserName.setText("Cliente: " + userName);
         holder.tvMoovieName.setText("Película: " + mooviName);
 
 
@@ -62,7 +60,15 @@ public class TicketAdapter extends RecyclerView.Adapter<TicketAdapter.ViewHolder
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(holder.itemView.getContext(), VisualizarTicket.class);
+                intent.putExtra("cine", cinemaName);
+                intent.putExtra("sala", roomName);
+                intent.putExtra("fecha", showDate);
+                intent.putExtra("hora", showTime);
+                intent.putExtra("asientos", reservedSeat);
+                intent.putExtra("usuario", userName);
+                intent.putExtra("pelicula", mooviName);
                 holder.itemView.getContext().startActivity(intent);
+
             }
         });
     }
@@ -74,20 +80,16 @@ public class TicketAdapter extends RecyclerView.Adapter<TicketAdapter.ViewHolder
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         TextView tvCinemaName;
-        TextView tvRoomName;
         TextView tvShowDate;
         TextView tvReservedSeats;
-        TextView tvUserName;
         TextView tvMoovieName;
 
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             tvCinemaName = itemView.findViewById(R.id.tv_cinema_name);
-            tvRoomName = itemView.findViewById(R.id.tv_room_name);
             tvShowDate = itemView.findViewById(R.id.tv_show_date);
             tvReservedSeats = itemView.findViewById(R.id.tv_reserved_seats);
-            tvUserName = itemView.findViewById(R.id.tv_user_name);
             tvMoovieName = itemView.findViewById(R.id.tv_movie_name);
         }
     }
