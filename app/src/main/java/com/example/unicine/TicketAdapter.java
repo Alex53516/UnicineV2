@@ -20,8 +20,10 @@ public class TicketAdapter extends RecyclerView.Adapter<TicketAdapter.ViewHolder
     private List<String> reservedSeats;
     private List<String> userNames;
     private List<String> moovieNames;
+    private List<String> idTickets;
+    private List<String> idSesiones;
 
-    public TicketAdapter(List<String> cinemaNames, List<String> roomNames, List<String> showDates, List<String> showTimes, List<String> reservedSeats, List<String> userNames, List<String> moovieNames) {
+    public TicketAdapter(List<String> cinemaNames, List<String> roomNames, List<String> showDates, List<String> showTimes, List<String> reservedSeats, List<String> userNames, List<String> moovieNames, List<String> idTickets, List<String> idSesiones) {
         this.cinemaNames = cinemaNames;
         this.roomNames = roomNames;
         this.showDates = showDates;
@@ -29,6 +31,8 @@ public class TicketAdapter extends RecyclerView.Adapter<TicketAdapter.ViewHolder
         this.reservedSeats = reservedSeats;
         this.userNames = userNames;
         this.moovieNames = moovieNames;
+        this.idTickets = idTickets;
+        this.idSesiones = idSesiones;
 
     }
 
@@ -48,6 +52,8 @@ public class TicketAdapter extends RecyclerView.Adapter<TicketAdapter.ViewHolder
         String reservedSeat = reservedSeats.get(position);
         String userName = userNames.get(0);
         String mooviName = moovieNames.get(position);
+        String idTicket = idTickets.get(position);
+        String idSesion = idSesiones.get(position);
 
         holder.tvCinemaName.setText("Cine: " + cinemaName);
         holder.tvShowDate.setText("Fecha y Hora: " + showDate + " " + showTime);
@@ -67,6 +73,8 @@ public class TicketAdapter extends RecyclerView.Adapter<TicketAdapter.ViewHolder
                 intent.putExtra("asientos", reservedSeat);
                 intent.putExtra("usuario", userName);
                 intent.putExtra("pelicula", mooviName);
+                intent.putExtra("idTicket", idTicket);
+                intent.putExtra("idSesiones", idSesion);
                 holder.itemView.getContext().startActivity(intent);
 
             }
