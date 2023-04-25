@@ -8,14 +8,14 @@ android:padding="16dp">
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Escriba la palabra ELIMINAR para eliminar su cuenta"
-        android:textSize="14sp" />
+        android:text="Introduzca la contraseña de su cuenta"
+        android:textSize="16dp" />
 
     <EditText
         android:id="@+id/edittext_popup"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Escribe aquí"
+        android:hint="Contraseña"
         android:layout_marginTop="8dp" />
 
     <Button

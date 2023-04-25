@@ -17,6 +17,8 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthCredential;
+import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
@@ -36,6 +38,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 
 /**
@@ -51,9 +54,14 @@ public class UsuarioFragment extends Fragment {
 
     int cuentaTickets = 0;
     List<String> tickets;
+    boolean canUserBeDeleted;
+    String userId;
+
+    private long elapsedTime;
 
     // TODO: Rename and change types and number of parameters
-    public static UsuarioFragment newInstance(String param1, String param2) {
+    public static UsuarioFragment newInstance(long param1) {
+
 
         return new UsuarioFragment();
     }
@@ -66,6 +74,7 @@ public class UsuarioFragment extends Fragment {
     }
 
     TextView nombreUsu, telefono, reservas , correo, out, eliminarCuenta;
+    long startTime;
 
 
     @Override
@@ -78,6 +87,8 @@ public class UsuarioFragment extends Fragment {
             String displayName = user.getDisplayName();
         }
 
+
+
         nombreUsu = (TextView) view.findViewById(R.id.textViewNombreUsuario);
         telefono = (TextView) view.findViewById(R.id.textViewTelefonoUsuario);
         correo = (TextView) view.findViewById(R.id.textViewEmailUsuario);
@@ -86,6 +97,7 @@ public class UsuarioFragment extends Fragment {
         eliminarCuenta = (TextView)view.findViewById(R.id.textViewEliminarCuenta);
 
 
+        onStart();
 
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
         FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -166,50 +178,42 @@ public class UsuarioFragment extends Fragment {
         final Dialog popupDialog = new Dialog(getContext());
         popupDialog.setContentView(R.layout.poup_layout);
 
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+        FirebaseAuth mAuth = FirebaseAuth.getInstance();
+        FirebaseUser user = mAuth.getCurrentUser();
+
+        db.collection("users")
+                .whereEqualTo("name", user.getDisplayName())
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                userId = document.getId();
+                                Log.d("User ID", "User ID for " + user.getDisplayName() + " is: " + userId);
+                                // Aquí puedes realizar acciones con el ID del usuario, como almacenarlo en una variable o llamar a otro método
+                            }
+                        } else {
+                            Log.w("Firestore Error", "Error getting documents: ", task.getException());
+                        }
+                    }
+                });
+
         final EditText editTextPopup = popupDialog.findViewById(R.id.edittext_popup);
         Button buttonPopup = popupDialog.findViewById(R.id.button_popup);
 
         buttonPopup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 // Acción a realizar al pulsar el botón "Aceptar"
                 String inputText = editTextPopup.getText().toString();
 
-                if (inputText.equals("ELIMINAR")) {
 
-                    FirebaseAuth mAuth = FirebaseAuth.getInstance();
-                    FirebaseUser user = mAuth.getCurrentUser();
+                checkIfUserCanBeDeleted(userId, inputText);
 
-                    if (user != null) {
-                        FirebaseFirestore db = FirebaseFirestore.getInstance();
-                        db.collection("users")
-                                .whereEqualTo("name", user.getDisplayName())
-                                .get()
-                                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                                    @Override
-                                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                                        if (task.isSuccessful()) {
-                                            for (QueryDocumentSnapshot document : task.getResult()) {
-                                                // obtener el array de tickets
-                                                tickets = (List<String>) document.get("tickets");
-
-                                                // iterar sobre los IDs de tickets y ejecutar el método para eliminar cada uno
-                                                for (String idTicket : tickets) {
-                                                    eliminarTicket(idTicket);
-                                                }
-                                            }
-                                        } else {
-                                            Log.w(TAG, "Error al obtener los documentos", task.getException());
-                                        }
-                                    }
-                                });
-                    }
-
-                } else {
-
-                    Toast.makeText(getContext(), "El texto introducido es incorrecto", Toast.LENGTH_SHORT).show();
-
-                }
 
                 // Haz algo con el texto ingresado en el EditText
                 popupDialog.dismiss();
@@ -248,40 +252,144 @@ public class UsuarioFragment extends Fragment {
     private void eliminarTicket(String idTicket) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
+            db.collection("ticket").document(idTicket)
+                    .get()
+                    .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                            if (task.isSuccessful()) {
+                                DocumentSnapshot document = task.getResult();
+                                if (document.exists()) {
+                                    // Aquí puedes obtener los atributos del documento
+                                    List<String> asientosReser = (List<String>) document.get("Asientos");
+                                    String idSesiones = document.getString("IdSesion");
+                                    // Borrar los asientos del documento de "sesiones"
+                                    db.collection("sesiones").document(idSesiones)
+                                            .update("AsientosReservados", FieldValue.arrayRemove(asientosReser.toArray()))
+                                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                @Override
+                                                public void onSuccess(Void aVoid) {
+                                                    Log.d(TAG, "Asientos eliminados con éxito de la colección \"sesiones\"");
+
+                                                    // Borrar el documento de "ticket"
+                                                    db.collection("ticket").document(idTicket)
+                                                            .delete()
+                                                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                                @Override
+                                                                public void onSuccess(Void aVoid) {
+                                                                    Log.d(TAG, "Documento eliminado con éxito de la colección \"ticket\"");
+
+                                                                    FirebaseAuth mAuth = FirebaseAuth.getInstance();
+                                                                    FirebaseUser currentUser = mAuth.getCurrentUser();
+
+                                                                    db.collection("users")
+                                                                            .whereEqualTo("name", currentUser.getDisplayName())
+                                                                            .get()
+                                                                            .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                                                                @Override
+                                                                                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                                                                    if (task.isSuccessful()) {
+                                                                                        // Si la consulta se realizó con éxito
+                                                                                        if (!task.getResult().isEmpty()) {
+                                                                                            // Obtener el id del primer documento que encontró
+                                                                                            String userId = task.getResult().getDocuments().get(0).getId();
+
+                                                                                            // Eliminar el documento completo en lugar de actualizar el campo "tickets"
+                                                                                            db.collection("users").document(userId)
+                                                                                                    .delete()
+                                                                                                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                                                                        @Override
+                                                                                                        public void onSuccess(Void aVoid) {
+                                                                                                            Log.d(TAG, "Documento de usuario eliminado con éxito");
+
+                                                                                                            cuentaTickets++;
+
+                                                                                                            if (cuentaTickets == tickets.size()) {
+                                                                                                                // Elimina al usuario después de eliminar todos los tickets
+                                                                                                                deleteUser();
+
+                                                                                                            }
+
+                                                                                                        }
+                                                                                                    })
+                                                                                                    .addOnFailureListener(new OnFailureListener() {
+                                                                                                        @Override
+                                                                                                        public void onFailure(@NonNull Exception e) {
+                                                                                                            Log.w(TAG, "Error al eliminar el documento de usuario", e);
+                                                                                                        }
+                                                                                                    });
+
+                                                                                        }
+                                                                                    }
+                                                                                }
+                                                                            });
+
+                                                                }
+                                                            })
+                                                            .addOnFailureListener(new OnFailureListener() {
+                                                                @Override
+                                                                public void onFailure(@NonNull Exception e) {
+                                                                    Log.w(TAG, "Error al eliminar el documento de la colección \"ticket\"", e);
+                                                                }
+                                                            });
+
+                                                }
+                                            })
+                                            .addOnFailureListener(new OnFailureListener() {
+                                                @Override
+                                                public void onFailure(@NonNull Exception e) {
+                                                    Log.w(TAG, "Error al eliminar los asientos de la colección \"sesiones\"", e);
+                                                }
+                                            });
 
 
-        db.collection("ticket").document(idTicket)
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                        if (task.isSuccessful()) {
-                            DocumentSnapshot document = task.getResult();
-                            if (document.exists()) {
-                                // Aquí puedes obtener los atributos del documento
-                                List<String> asientosReser = (List<String>) document.get("Asientos");
-                                String idSesiones = document.getString("IdSesion");
-                                // Borrar los asientos del documento de "sesiones"
-                                db.collection("sesiones").document(idSesiones)
-                                        .update("AsientosReservados", FieldValue.arrayRemove(asientosReser.toArray()))
-                                        .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                            @Override
-                                            public void onSuccess(Void aVoid) {
-                                                Log.d(TAG, "Asientos eliminados con éxito de la colección \"sesiones\"");
+                                } else {
+                                    Log.d(TAG, "El documento no existe");
+                                }
+                            } else {
+                                Log.w(TAG, "Error al obtener el documento", task.getException());
+                            }
+                        }
+                    });
+    }
 
-                                                // Borrar el documento de "ticket"
-                                                db.collection("ticket").document(idTicket)
-                                                        .delete()
-                                                        .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                                            @Override
-                                                            public void onSuccess(Void aVoid) {
-                                                                Log.d(TAG, "Documento eliminado con éxito de la colección \"ticket\"");
+    private void checkIfUserCanBeDeleted(String email, String password) {
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user != null) {
+            AuthCredential credential = EmailAuthProvider.getCredential(email, password);
+            user.reauthenticate(credential)
+                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            if (task.isSuccessful()) {
+                                // El usuario se reautenticó correctamente, lo que indica que se puede eliminar
+                                canUserBeDeleted = true;
 
-                                                                FirebaseAuth mAuth = FirebaseAuth.getInstance();
-                                                                FirebaseUser currentUser = mAuth.getCurrentUser();
+                                FirebaseAuth mAuth = FirebaseAuth.getInstance();
+                                FirebaseUser user = mAuth.getCurrentUser();
+
+                                if (user != null) {
+                                    FirebaseFirestore db = FirebaseFirestore.getInstance();
+                                    db.collection("users")
+                                            .whereEqualTo("name", user.getDisplayName())
+                                            .get()
+                                            .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                                @Override
+                                                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                                    if (task.isSuccessful()) {
+                                                        for (QueryDocumentSnapshot document : task.getResult()) {
+                                                            // obtener el array de tickets
+                                                            tickets = (List<String>) document.get("tickets");
+
+                                                            // iterar sobre los IDs de tickets y ejecutar el método para eliminar cada uno
+                                                            for (String idTicket : tickets) {
+                                                                eliminarTicket(idTicket);
+                                                            }
+
+                                                            if (tickets.size() == 0){
 
                                                                 db.collection("users")
-                                                                        .whereEqualTo("name", currentUser.getDisplayName())
+                                                                        .whereEqualTo("name", user.getDisplayName())
                                                                         .get()
                                                                         .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                                                                             @Override
@@ -300,13 +408,7 @@ public class UsuarioFragment extends Fragment {
                                                                                                     public void onSuccess(Void aVoid) {
                                                                                                         Log.d(TAG, "Documento de usuario eliminado con éxito");
 
-                                                                                                        cuentaTickets++;
-
-                                                                                                        if (cuentaTickets == tickets.size()){
-                                                                                                            // Elimina al usuario después de eliminar todos los tickets
-                                                                                                            deleteUser();
-
-                                                                                                        }
+                                                                                                        deleteUser();
 
                                                                                                     }
                                                                                                 })
@@ -323,33 +425,26 @@ public class UsuarioFragment extends Fragment {
                                                                         });
 
                                                             }
-                                                        })
-                                                        .addOnFailureListener(new OnFailureListener() {
-                                                            @Override
-                                                            public void onFailure(@NonNull Exception e) {
-                                                                Log.w(TAG, "Error al eliminar el documento de la colección \"ticket\"", e);
-                                                            }
-                                                        });
 
-                                            }
-                                        })
-                                        .addOnFailureListener(new OnFailureListener() {
-                                            @Override
-                                            public void onFailure(@NonNull Exception e) {
-                                                Log.w(TAG, "Error al eliminar los asientos de la colección \"sesiones\"", e);
-                                            }
-                                        });
+                                                        }
+                                                    } else {
+                                                        Log.w(TAG, "Error al obtener los documentos", task.getException());
+                                                    }
+                                                }
+                                            });
+                                }
 
-
+                                // Aquí puedes mostrar un mensaje o realizar acciones basadas en el valor de canUserBeDeleted
                             } else {
-                                Log.d(TAG, "El documento no existe");
-                            }
-                        } else {
-                            Log.w(TAG, "Error al obtener el documento", task.getException());
-                        }
-                    }
-                });
+                                // No se pudo reautenticar al usuario, lo que indica que no se puede eliminar
+                                canUserBeDeleted = false;
+                                Toast.makeText(getContext(), "Error al eliminar el usuario" + canUserBeDeleted, Toast.LENGTH_SHORT).show();
 
+                                // Aquí puedes mostrar un mensaje o realizar acciones basadas en el valor de canUserBeDeleted
+                            }
+                        }
+                    });
+        }
     }
 
 
