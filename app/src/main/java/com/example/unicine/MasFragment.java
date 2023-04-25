@@ -1,10 +1,15 @@
 package com.example.unicine;
 
+import static androidx.core.content.PermissionChecker.checkSelfPermission;
+
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 
+import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 
 import android.speech.tts.TextToSpeech;
@@ -14,6 +19,9 @@ import android.view.ViewGroup;
 import android.view.inputmethod.CorrectionInfo;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.Manifest;
+import android.content.pm.PackageManager;
+
 
 /**
  * A simple {@link Fragment} subclass.
@@ -41,6 +49,9 @@ public class MasFragment extends Fragment {
 
     TextView LLamar, MandarCorreo, facebook , twitter, youtube, instagram;
 
+    private static final int PERMISSIONS_REQUEST_CALL_PHONE = 1;
+
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
@@ -60,6 +71,12 @@ public class MasFragment extends Fragment {
         instagram.setOnClickListener(this::onClick);
         youtube.setOnClickListener(this::onClick);
 
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+                requestPermissions(new String[]{Manifest.permission.CALL_PHONE}, PERMISSIONS_REQUEST_CALL_PHONE);
+            }
+        }
+
         return view;
     }
 
@@ -69,11 +86,13 @@ public class MasFragment extends Fragment {
 
 
             case R.id.textViewLLamar:
-
-                String phoneNumber = "tel:" + "647004975";
-                Intent intenLLamar = new Intent(Intent.ACTION_CALL, Uri.parse(phoneNumber));
+                if (ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.CALL_PHONE) == PackageManager.PERMISSION_GRANTED) {
+                    String phoneNumber = "tel:" + "647004975";
+                    Intent intenLLamar = new Intent(Intent.ACTION_CALL, Uri.parse(phoneNumber));
                     startActivity(intenLLamar);
-
+                } else {
+                    Toast.makeText(getContext(), "Permiso para realizar llamadas no concedido", Toast.LENGTH_SHORT).show();
+                }
                 break;
 
 
