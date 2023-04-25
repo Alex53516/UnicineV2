@@ -14,16 +14,29 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import org.checkerframework.checker.nullness.qual.NonNull;
+
+import android.app.Dialog;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
+
+import java.util.List;
+
 
 /**
  * A simple {@link Fragment} subclass.
@@ -36,6 +49,8 @@ public class UsuarioFragment extends Fragment {
         // Required empty public constructor
     }
 
+    int cuentaTickets = 0;
+    List<String> tickets;
 
     // TODO: Rename and change types and number of parameters
     public static UsuarioFragment newInstance(String param1, String param2) {
@@ -50,7 +65,7 @@ public class UsuarioFragment extends Fragment {
 
     }
 
-    TextView nombreUsu, telefono, reservas , correo, out;
+    TextView nombreUsu, telefono, reservas , correo, out, eliminarCuenta;
 
 
     @Override
@@ -68,6 +83,8 @@ public class UsuarioFragment extends Fragment {
         correo = (TextView) view.findViewById(R.id.textViewEmailUsuario);
         out = (TextView) view.findViewById(R.id.textViewLogOut);
         reservas = (TextView) view.findViewById(R.id.textViewReservas);
+        eliminarCuenta = (TextView)view.findViewById(R.id.textViewEliminarCuenta);
+
 
 
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
@@ -132,8 +149,208 @@ public class UsuarioFragment extends Fragment {
             }
         });
 
+        eliminarCuenta.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                showPopup();
+
+            }
+        });
 
         return view;
 
     }
+
+    private void showPopup() {
+        final Dialog popupDialog = new Dialog(getContext());
+        popupDialog.setContentView(R.layout.poup_layout);
+
+        final EditText editTextPopup = popupDialog.findViewById(R.id.edittext_popup);
+        Button buttonPopup = popupDialog.findViewById(R.id.button_popup);
+
+        buttonPopup.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Acción a realizar al pulsar el botón "Aceptar"
+                String inputText = editTextPopup.getText().toString();
+
+                if (inputText.equals("ELIMINAR")) {
+
+                    FirebaseAuth mAuth = FirebaseAuth.getInstance();
+                    FirebaseUser user = mAuth.getCurrentUser();
+
+                    if (user != null) {
+                        FirebaseFirestore db = FirebaseFirestore.getInstance();
+                        db.collection("users")
+                                .whereEqualTo("name", user.getDisplayName())
+                                .get()
+                                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                        if (task.isSuccessful()) {
+                                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                                // obtener el array de tickets
+                                                tickets = (List<String>) document.get("tickets");
+
+                                                // iterar sobre los IDs de tickets y ejecutar el método para eliminar cada uno
+                                                for (String idTicket : tickets) {
+                                                    eliminarTicket(idTicket);
+                                                }
+                                            }
+                                        } else {
+                                            Log.w(TAG, "Error al obtener los documentos", task.getException());
+                                        }
+                                    }
+                                });
+                    }
+
+                } else {
+
+                    Toast.makeText(getContext(), "El texto introducido es incorrecto", Toast.LENGTH_SHORT).show();
+
+                }
+
+                // Haz algo con el texto ingresado en el EditText
+                popupDialog.dismiss();
+            }
+        });
+
+        popupDialog.show();
+    }
+
+
+    private void deleteUser() {
+        FirebaseAuth mAuth = FirebaseAuth.getInstance();
+        FirebaseUser user = mAuth.getCurrentUser();
+
+        if (user != null) {
+            user.delete()
+                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            if (task.isSuccessful()) {
+                                // El usuario se eliminó correctamente
+
+                                Toast.makeText(getContext(), "Ha eliminado su cuenta con exito", Toast.LENGTH_SHORT).show();
+                                Intent intent = new Intent(getContext(), Login.class);
+                                startActivity(intent);
+
+                            } else {
+                                // Hubo un error al eliminar el usuario
+                                Toast.makeText(getContext(), "Error al eliminar el usuario", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    });
+        }
+    }
+
+    private void eliminarTicket(String idTicket) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+
+
+        db.collection("ticket").document(idTicket)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if (task.isSuccessful()) {
+                            DocumentSnapshot document = task.getResult();
+                            if (document.exists()) {
+                                // Aquí puedes obtener los atributos del documento
+                                List<String> asientosReser = (List<String>) document.get("Asientos");
+                                String idSesiones = document.getString("IdSesion");
+                                // Borrar los asientos del documento de "sesiones"
+                                db.collection("sesiones").document(idSesiones)
+                                        .update("AsientosReservados", FieldValue.arrayRemove(asientosReser.toArray()))
+                                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                            @Override
+                                            public void onSuccess(Void aVoid) {
+                                                Log.d(TAG, "Asientos eliminados con éxito de la colección \"sesiones\"");
+
+                                                // Borrar el documento de "ticket"
+                                                db.collection("ticket").document(idTicket)
+                                                        .delete()
+                                                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                            @Override
+                                                            public void onSuccess(Void aVoid) {
+                                                                Log.d(TAG, "Documento eliminado con éxito de la colección \"ticket\"");
+
+                                                                FirebaseAuth mAuth = FirebaseAuth.getInstance();
+                                                                FirebaseUser currentUser = mAuth.getCurrentUser();
+
+                                                                db.collection("users")
+                                                                        .whereEqualTo("name", currentUser.getDisplayName())
+                                                                        .get()
+                                                                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                                                            @Override
+                                                                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                                                                if (task.isSuccessful()) {
+                                                                                    // Si la consulta se realizó con éxito
+                                                                                    if (!task.getResult().isEmpty()) {
+                                                                                        // Obtener el id del primer documento que encontró
+                                                                                        String userId = task.getResult().getDocuments().get(0).getId();
+
+                                                                                        // Eliminar el documento completo en lugar de actualizar el campo "tickets"
+                                                                                        db.collection("users").document(userId)
+                                                                                                .delete()
+                                                                                                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                                                                    @Override
+                                                                                                    public void onSuccess(Void aVoid) {
+                                                                                                        Log.d(TAG, "Documento de usuario eliminado con éxito");
+
+                                                                                                        cuentaTickets++;
+
+                                                                                                        if (cuentaTickets == tickets.size()){
+                                                                                                            // Elimina al usuario después de eliminar todos los tickets
+                                                                                                            deleteUser();
+
+                                                                                                        }
+
+                                                                                                    }
+                                                                                                })
+                                                                                                .addOnFailureListener(new OnFailureListener() {
+                                                                                                    @Override
+                                                                                                    public void onFailure(@NonNull Exception e) {
+                                                                                                        Log.w(TAG, "Error al eliminar el documento de usuario", e);
+                                                                                                    }
+                                                                                                });
+
+                                                                                    }
+                                                                                }
+                                                                            }
+                                                                        });
+
+                                                            }
+                                                        })
+                                                        .addOnFailureListener(new OnFailureListener() {
+                                                            @Override
+                                                            public void onFailure(@NonNull Exception e) {
+                                                                Log.w(TAG, "Error al eliminar el documento de la colección \"ticket\"", e);
+                                                            }
+                                                        });
+
+                                            }
+                                        })
+                                        .addOnFailureListener(new OnFailureListener() {
+                                            @Override
+                                            public void onFailure(@NonNull Exception e) {
+                                                Log.w(TAG, "Error al eliminar los asientos de la colección \"sesiones\"", e);
+                                            }
+                                        });
+
+
+                            } else {
+                                Log.d(TAG, "El documento no existe");
+                            }
+                        } else {
+                            Log.w(TAG, "Error al obtener el documento", task.getException());
+                        }
+                    }
+                });
+
+    }
+
+
 }
