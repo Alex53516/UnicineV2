@@ -438,7 +438,7 @@ public class UsuarioFragment extends Fragment {
                             } else {
                                 // No se pudo reautenticar al usuario, lo que indica que no se puede eliminar
                                 canUserBeDeleted = false;
-                                Toast.makeText(getContext(), "Error al eliminar el usuario" + canUserBeDeleted, Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getContext(), "Error al eliminar el usuario", Toast.LENGTH_SHORT).show();
 
                                 // Aquí puedes mostrar un mensaje o realizar acciones basadas en el valor de canUserBeDeleted
                             }
