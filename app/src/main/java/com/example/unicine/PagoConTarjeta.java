@@ -78,10 +78,8 @@ public class PagoConTarjeta extends AppCompatActivity {
 
         double result = (numeroBu * precioEntrada);
 
-        DecimalFormat decimalFormat = new DecimalFormat("#.##");
-        double resultadoLimitado = Double.parseDouble(decimalFormat.format(result));
 
-        String resultString = String.valueOf(resultadoLimitado);
+        String resultString = String.valueOf(result);
 
         operacion = (TextView) findViewById(R.id.textViewOperacion);
         resultadoOperacion = (TextView) findViewById(R.id.textViewOperacionResul);
