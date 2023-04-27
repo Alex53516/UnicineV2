@@ -183,7 +183,7 @@ public class CrearCuenta extends AppCompatActivity {
                                         }
 
                                     } else {
-                                        Toast.makeText(getApplicationContext(), "El registro falló", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(getApplicationContext(), "Las contraseñas no cumplen con los criterios mínimos", Toast.LENGTH_SHORT).show();
                                     }
                                 }
                             });

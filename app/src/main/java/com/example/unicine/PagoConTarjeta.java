@@ -35,6 +35,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class PagoConTarjeta extends AppCompatActivity {
@@ -48,6 +49,8 @@ public class PagoConTarjeta extends AppCompatActivity {
     String pelicula;
     String userId;
     String idPelicula;
+    boolean butacasRepes = false;
+
 
 
 
@@ -104,7 +107,7 @@ public class PagoConTarjeta extends AppCompatActivity {
                 DatePickerDialog datePickerDialog = new DatePickerDialog(PagoConTarjeta.this, new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                        String selectedDate = dayOfMonth + "/" + (month + 1) + "/" + year;
+                        String selectedDate = "  " + dayOfMonth + "/" + (month + 1) + "/" + year;
                         fecha.setText(selectedDate);
                     }
                 }, year, month, dayOfMonth);
@@ -119,7 +122,7 @@ public class PagoConTarjeta extends AppCompatActivity {
             public void onClick(View v) {
 
                 boolean avanzar1 = true;
-                boolean avanzar2= true;
+                boolean avanzar2 = true;
                 boolean avanzar3 = true;
 
 
@@ -166,175 +169,224 @@ public class PagoConTarjeta extends AppCompatActivity {
                 }
 
 
-                if (avanzar1 == true && avanzar2 == true && avanzar3 == true){
+                if (avanzar1 == true && avanzar2 == true && avanzar3 == true) {
 
 
-                    // Inicializa FirebaseFirestore
-                    FirebaseFirestore db = FirebaseFirestore.getInstance();
+                    FirebaseFirestore db2 = FirebaseFirestore.getInstance();
+                    DocumentReference sesionRef = db2.collection("sesiones").document(idSesione);
 
-                    // Obtiene la referencia al documento de la sesión que deseas modificar
-                    DocumentReference sessionRef = db.collection("sesiones").document(idSesione);
+                    sesionRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                            if (task.isSuccessful()) {
+                                DocumentSnapshot sesionDoc = task.getResult();
+                                if (sesionDoc.exists()) {
 
-                    // Agrega los elementos del ArrayList asientos al array AsientosReservados en Firestore
-                    sessionRef.update("AsientosReservados", FieldValue.arrayUnion(numeroButacasCoger.toArray()))
-                            .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                @Override
-                                public void onSuccess(Void aVoid) {
-                                    Log.d("Firestore", "Elementos agregados con éxito a AsientosReservados");
+                                    // Dentro del if (sesionDoc.exists()) { ... }
+                                    List<String> butacasSel = (List<String>) sesionDoc.get("AsientosReservados");
+                                    List<String> butacasEncontradas = new ArrayList<>();
+                                    boolean butacasRepes = false;
 
-                                }
-                            })
-                            .addOnFailureListener(new OnFailureListener() {
-                                @Override
-                                public void onFailure(@NonNull Exception e) {
-                                    Log.w("Firestore", "Error al agregar elementos a AsientosReservados", e);
-                                }
-                            });
-
-
-                    // Inicializa FirebaseFirestore
-
-                    FirebaseAuth auth = FirebaseAuth.getInstance();
-                    FirebaseUser user = auth.getCurrentUser();
-                    String userName = user.getDisplayName();
-
-                    db.collection("cines").document(idCine)
-                            .get()
-                            .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                                @Override
-                                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                                    if (task.isSuccessful()) {
-                                        DocumentSnapshot document = task.getResult();
-                                        if (document.exists()) {
-                                             nombreCine = document.getString("Nombre");
-
-                                            db.collection("sesiones").document(idSesione)
-                                                    .get()
-                                                    .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                                                        @Override
-                                                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                                                            if (task.isSuccessful()) {
-                                                                DocumentSnapshot document = task.getResult();
-                                                                if (document.exists()) {
-                                                                    fechas = document.getString("Fecha");
-                                                                    horas = document.getString("Hora");
-                                                                    idPelicula = document.getString("IdPelicula");
-
-                                                                    db.collection("peliculas").document(idPelicula)
-                                                                            .get()
-                                                                            .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                                                                                @Override
-                                                                                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                                                                                    if (task.isSuccessful()) {
-                                                                                        DocumentSnapshot document = task.getResult();
-                                                                                        if (document.exists()) {
-                                                                                            pelicula = document.getString("Nombre");
-
-
-                                                                                            db.collection("users")
-                                                                                                    .whereEqualTo("name", userName)
-                                                                                                    .get()
-                                                                                                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                                                                                                        @Override
-                                                                                                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                                                                                                            if (task.isSuccessful()) {
-                                                                                                                for (QueryDocumentSnapshot document : task.getResult()) {
-                                                                                                                    userId = document.getId();
-                                                                                                                    Log.d("Firestore", "ID del usuario encontrado: " + userId);
-
-                                                                                                                    // Crea un nuevo objeto Map que contendrá los atributos y sus valores
-                                                                                                                    Map<String, Object> ticket = new HashMap<>();
-
-                                                                                                                    // Agrega los pares clave-valor al objeto Map
-                                                                                                                    ticket.put("Cine", nombreCine);
-                                                                                                                    ticket.put("Sala", nombreSala);
-                                                                                                                    ticket.put("Pelicula", pelicula);
-                                                                                                                    ticket.put("Fecha", fechas);
-                                                                                                                    ticket.put("Hora", horas);
-                                                                                                                    ticket.put("Usuario", userId);
-                                                                                                                    ticket.put("Asientos", numeroButacasCoger);
-                                                                                                                    ticket.put("IdSesion", idSesione);
-                                                                                                                    ticket.put("Precio", resultString + "€" );
-
-                                                                                                                    // Agrega un nuevo documento a la colección "ticket" con los atributos y valores especificados
-                                                                                                                    db.collection("ticket")
-                                                                                                                            .add(ticket)
-                                                                                                                            .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                                                                                                                                @Override
-                                                                                                                                public void onSuccess(DocumentReference documentReference) {
-                                                                                                                                    Log.d(TAG, "Documento añadido con ID: " + documentReference.getId());
-
-                                                                                                                                    // Actualiza el documento del usuario en la colección "users" añadiendo el ID del ticket a la lista "idtickets"
-                                                                                                                                    db.collection("users").document(userId)
-                                                                                                                                            .update("tickets", FieldValue.arrayUnion(documentReference.getId()))
-                                                                                                                                            .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                                                                                                                                @Override
-                                                                                                                                                public void onSuccess(Void aVoid) {
-                                                                                                                                                    Log.d(TAG, "idtickets actualizado con éxito");
-                                                                                                                                                    Toast.makeText(getApplicationContext(), "Asientos reservados correctamente", Toast.LENGTH_SHORT).show();
-
-                                                                                                                                                }
-                                                                                                                                            })
-                                                                                                                                            .addOnFailureListener(new OnFailureListener() {
-                                                                                                                                                @Override
-                                                                                                                                                public void onFailure(@NonNull Exception e) {
-                                                                                                                                                    Log.w(TAG, "Error al actualizar idtickets", e);
-                                                                                                                                                }
-                                                                                                                                            });
-
-                                                                                                                                    Intent pagado = new Intent(getApplicationContext(), PantallaPrincipal.class);
-                                                                                                                                    startActivity(pagado);
-
-                                                                                                                                    // Aquí puedes realizar acciones adicionales después de agregar el documento correctamente
-                                                                                                                                    // Por ejemplo, mostrar un mensaje de éxito o redirigir a otra actividad
-                                                                                                                                }
-                                                                                                                            })
-                                                                                                                            .addOnFailureListener(new OnFailureListener() {
-                                                                                                                                @Override
-                                                                                                                                public void onFailure(@NonNull Exception e) {
-                                                                                                                                    Log.w(TAG, "Error al añadir el documento", e);
-
-                                                                                                                                    // Aquí puedes realizar acciones adicionales en caso de que ocurra un error al agregar el documento
-                                                                                                                                    // Por ejemplo, mostrar un mensaje de error
-                                                                                                                                }
-                                                                                                                            });
-                                                                                                                }
-                                                                                                            } else {
-                                                                                                                Log.w("Firestore", "Error al obtener documentos", task.getException());
-                                                                                                            }
-                                                                                                        }
-                                                                                                    });
-
-                                                                                            // hacer algo con el nombre del cine
-                                                                                        } else {
-                                                                                            // el documento no existe
-                                                                                        }
-                                                                                    } else {
-                                                                                        // error al obtener el documento
-                                                                                    }
-                                                                                }
-                                                                            });
-
-                                                                    // hacer algo con el nombre del cine
-                                                                } else {
-                                                                    // el documento no existe
-                                                                }
-                                                            } else {
-                                                                // error al obtener el documento
-                                                            }
-                                                        }
-                                                    });
-
-                                            // hacer algo con el nombre del cine
-                                        } else {
-                                            // el documento no existe
+                                    for (String butaca : numeroButacasCoger) {
+                                        if (butacasSel.contains(butaca)) {
+                                            butacasEncontradas.add(butaca);
+                                            butacasRepes = true;
                                         }
-                                    } else {
-                                        // error al obtener el documento
                                     }
-                                }
-                            });
 
+                                    if (!butacasRepes) {
+                                        Log.d(TAG, "No se encontraron asientos duplicados");
+                                    } else {
+                                        Log.d(TAG, "Se encontraron asientos duplicados: " + butacasEncontradas);
+                                    }
+
+                                } else {
+                                    Log.d(TAG, "No such document");
+                                }
+                            } else {
+                                Log.d(TAG, "get failed with ", task.getException());
+                            }
+                        }
+                    });
+
+
+                    if (butacasRepes == false) {
+
+
+                        // Inicializa FirebaseFirestore
+                        FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+                        // Obtiene la referencia al documento de la sesión que deseas modificar
+                        DocumentReference sessionRef = db.collection("sesiones").document(idSesione);
+
+                        // Agrega los elementos del ArrayList asientos al array AsientosReservados en Firestore
+                        sessionRef.update("AsientosReservados", FieldValue.arrayUnion(numeroButacasCoger.toArray()))
+                                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                    @Override
+                                    public void onSuccess(Void aVoid) {
+                                        Log.d("Firestore", "Elementos agregados con éxito a AsientosReservados");
+
+                                    }
+                                })
+                                .addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        Log.w("Firestore", "Error al agregar elementos a AsientosReservados", e);
+                                    }
+                                });
+
+
+                        // Inicializa FirebaseFirestore
+
+                        FirebaseAuth auth = FirebaseAuth.getInstance();
+                        FirebaseUser user = auth.getCurrentUser();
+                        String userName = user.getDisplayName();
+
+                        db.collection("cines").document(idCine)
+                                .get()
+                                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                        if (task.isSuccessful()) {
+                                            DocumentSnapshot document = task.getResult();
+                                            if (document.exists()) {
+                                                nombreCine = document.getString("Nombre");
+
+                                                db.collection("sesiones").document(idSesione)
+                                                        .get()
+                                                        .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                                            @Override
+                                                            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                                                if (task.isSuccessful()) {
+                                                                    DocumentSnapshot document = task.getResult();
+                                                                    if (document.exists()) {
+                                                                        fechas = document.getString("Fecha");
+                                                                        horas = document.getString("Hora");
+                                                                        idPelicula = document.getString("IdPelicula");
+
+                                                                        db.collection("peliculas").document(idPelicula)
+                                                                                .get()
+                                                                                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                                                                    @Override
+                                                                                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                                                                        if (task.isSuccessful()) {
+                                                                                            DocumentSnapshot document = task.getResult();
+                                                                                            if (document.exists()) {
+                                                                                                pelicula = document.getString("Nombre");
+
+
+                                                                                                db.collection("users")
+                                                                                                        .whereEqualTo("name", userName)
+                                                                                                        .get()
+                                                                                                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                                                                                            @Override
+                                                                                                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                                                                                                if (task.isSuccessful()) {
+                                                                                                                    for (QueryDocumentSnapshot document : task.getResult()) {
+                                                                                                                        userId = document.getId();
+                                                                                                                        Log.d("Firestore", "ID del usuario encontrado: " + userId);
+
+                                                                                                                        // Crea un nuevo objeto Map que contendrá los atributos y sus valores
+                                                                                                                        Map<String, Object> ticket = new HashMap<>();
+
+                                                                                                                        // Agrega los pares clave-valor al objeto Map
+                                                                                                                        ticket.put("Cine", nombreCine);
+                                                                                                                        ticket.put("Sala", nombreSala);
+                                                                                                                        ticket.put("Pelicula", pelicula);
+                                                                                                                        ticket.put("Fecha", fechas);
+                                                                                                                        ticket.put("Hora", horas);
+                                                                                                                        ticket.put("Usuario", userId);
+                                                                                                                        ticket.put("Asientos", numeroButacasCoger);
+                                                                                                                        ticket.put("IdSesion", idSesione);
+                                                                                                                        ticket.put("Precio", resultString + "€");
+
+                                                                                                                        // Agrega un nuevo documento a la colección "ticket" con los atributos y valores especificados
+                                                                                                                        db.collection("ticket")
+                                                                                                                                .add(ticket)
+                                                                                                                                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                                                                                                                                    @Override
+                                                                                                                                    public void onSuccess(DocumentReference documentReference) {
+                                                                                                                                        Log.d(TAG, "Documento añadido con ID: " + documentReference.getId());
+
+                                                                                                                                        // Actualiza el documento del usuario en la colección "users" añadiendo el ID del ticket a la lista "idtickets"
+                                                                                                                                        db.collection("users").document(userId)
+                                                                                                                                                .update("tickets", FieldValue.arrayUnion(documentReference.getId()))
+                                                                                                                                                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                                                                                                                    @Override
+                                                                                                                                                    public void onSuccess(Void aVoid) {
+                                                                                                                                                        Log.d(TAG, "idtickets actualizado con éxito");
+                                                                                                                                                        Toast.makeText(getApplicationContext(), "Asientos reservados correctamente", Toast.LENGTH_SHORT).show();
+
+                                                                                                                                                    }
+                                                                                                                                                })
+                                                                                                                                                .addOnFailureListener(new OnFailureListener() {
+                                                                                                                                                    @Override
+                                                                                                                                                    public void onFailure(@NonNull Exception e) {
+                                                                                                                                                        Log.w(TAG, "Error al actualizar idtickets", e);
+                                                                                                                                                    }
+                                                                                                                                                });
+
+                                                                                                                                        Intent pagado = new Intent(getApplicationContext(), PantallaPrincipal.class);
+                                                                                                                                        startActivity(pagado);
+
+                                                                                                                                        // Aquí puedes realizar acciones adicionales después de agregar el documento correctamente
+                                                                                                                                        // Por ejemplo, mostrar un mensaje de éxito o redirigir a otra actividad
+                                                                                                                                    }
+                                                                                                                                })
+                                                                                                                                .addOnFailureListener(new OnFailureListener() {
+                                                                                                                                    @Override
+                                                                                                                                    public void onFailure(@NonNull Exception e) {
+                                                                                                                                        Log.w(TAG, "Error al añadir el documento", e);
+
+                                                                                                                                        // Aquí puedes realizar acciones adicionales en caso de que ocurra un error al agregar el documento
+                                                                                                                                        // Por ejemplo, mostrar un mensaje de error
+                                                                                                                                    }
+                                                                                                                                });
+                                                                                                                    }
+                                                                                                                } else {
+                                                                                                                    Log.w("Firestore", "Error al obtener documentos", task.getException());
+                                                                                                                }
+                                                                                                            }
+                                                                                                        });
+
+                                                                                                // hacer algo con el nombre del cine
+                                                                                            } else {
+                                                                                                // el documento no existe
+                                                                                            }
+                                                                                        } else {
+                                                                                            // error al obtener el documento
+                                                                                        }
+                                                                                    }
+                                                                                });
+
+                                                                        // hacer algo con el nombre del cine
+                                                                    } else {
+                                                                        // el documento no existe
+                                                                    }
+                                                                } else {
+                                                                    // error al obtener el documento
+                                                                }
+                                                            }
+                                                        });
+
+                                                // hacer algo con el nombre del cine
+                                            } else {
+                                                // el documento no existe
+                                            }
+                                        } else {
+                                            // error al obtener el documento
+                                        }
+                                    }
+                                });
+
+                    }else{
+
+                        Intent Nopagado = new Intent(getApplicationContext(), PantallaPrincipal.class);
+                        startActivity(Nopagado);
+                        Toast.makeText(getApplicationContext(), "Lo sentimos pero se le ha cancelado la transacción porque alguién ha reservado alguno de los asientos antes que usted", Toast.LENGTH_SHORT).show();
+
+
+                    }
 
                 }
 
