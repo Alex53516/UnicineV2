@@ -49,7 +49,7 @@ public class PagoConTarjeta extends AppCompatActivity {
     String pelicula;
     String userId;
     String idPelicula;
-    boolean butacasRepes = false;
+    boolean butacasRepes;
 
 
 
@@ -65,6 +65,49 @@ public class PagoConTarjeta extends AppCompatActivity {
         String[] numeroButacas = getIntent().getStringArrayExtra("numeroButacas");
         ArrayList<String> numeroButacasCoger = new ArrayList<>(Arrays.asList(numeroButacas));
 
+
+
+        FirebaseFirestore db2 = FirebaseFirestore.getInstance();
+        DocumentReference sesionRef = db2.collection("sesiones").document(idSesione);
+
+        sesionRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot sesionDoc = task.getResult();
+                    if (sesionDoc.exists()) {
+
+                        // Dentro del if (sesionDoc.exists()) { ... }
+                        List<String> butacasSel = (List<String>) sesionDoc.get("AsientosReservados");
+                        List<String> butacasEncontradas = new ArrayList<>();
+
+                        Log.d(TAG, "Contenido de butacasSel: " + butacasSel);
+                        Log.d(TAG, "Contenido de numeroButacasCoger: " + numeroButacasCoger);
+
+                        for (String butaca : numeroButacasCoger) {
+                            if (!butacasSel.contains(butaca)) {
+                                butacasRepes = false;
+                            }else{
+                                butacasEncontradas.add(butaca);
+                                butacasRepes = true;
+                                break;
+                            }
+                        }
+
+                        if (!butacasRepes) {
+                            Log.d(TAG, "No se encontraron asientos duplicados");
+                        } else {
+                            Log.d(TAG, "Se encontraron asientos duplicados: " + butacasEncontradas);
+                        }
+
+                    } else {
+                        Log.d(TAG, "No such document");
+                    }
+                } else {
+                    Log.d(TAG, "get failed with ", task.getException());
+                }
+            }
+        });
 
 
         int numeroBu = numeroButacas.length;
@@ -170,45 +213,6 @@ public class PagoConTarjeta extends AppCompatActivity {
 
 
                 if (avanzar1 == true && avanzar2 == true && avanzar3 == true) {
-
-
-                    FirebaseFirestore db2 = FirebaseFirestore.getInstance();
-                    DocumentReference sesionRef = db2.collection("sesiones").document(idSesione);
-
-                    sesionRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                        @Override
-                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                            if (task.isSuccessful()) {
-                                DocumentSnapshot sesionDoc = task.getResult();
-                                if (sesionDoc.exists()) {
-
-                                    // Dentro del if (sesionDoc.exists()) { ... }
-                                    List<String> butacasSel = (List<String>) sesionDoc.get("AsientosReservados");
-                                    List<String> butacasEncontradas = new ArrayList<>();
-                                    boolean butacasRepes = false;
-
-                                    for (String butaca : numeroButacasCoger) {
-                                        if (butacasSel.contains(butaca)) {
-                                            butacasEncontradas.add(butaca);
-                                            butacasRepes = true;
-                                        }
-                                    }
-
-                                    if (!butacasRepes) {
-                                        Log.d(TAG, "No se encontraron asientos duplicados");
-                                    } else {
-                                        Log.d(TAG, "Se encontraron asientos duplicados: " + butacasEncontradas);
-                                    }
-
-                                } else {
-                                    Log.d(TAG, "No such document");
-                                }
-                            } else {
-                                Log.d(TAG, "get failed with ", task.getException());
-                            }
-                        }
-                    });
-
 
                     if (butacasRepes == false) {
 
