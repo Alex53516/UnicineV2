@@ -188,6 +188,7 @@
         android:background="@drawable/rectangulo_blanco"
         android:gravity="center_vertical"
         android:hint="  DD/MM/AAAA"
+        android:textColor="#FFFFFF"
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
