@@ -137,6 +137,10 @@ public class PantallaPrincipal extends AppCompatActivity {
    };
 
 
+    @Override
+    public void onBackPressed() {
+
+    }
 
 
 

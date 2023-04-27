@@ -34,7 +34,7 @@ import java.util.List;
 
 public class VisualizarTicket extends AppCompatActivity {
 
-    TextView cin, sal,fech, hor, asient, usuari, pelicu, cancelarReserva, idTickets;
+    TextView cin, sal,fech, hor, asient, usuari, pelicu, cancelarReserva, idTickets, preci;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +56,7 @@ public class VisualizarTicket extends AppCompatActivity {
         pelicu = findViewById(R.id.textViewPeliculaTicket);
         cancelarReserva = findViewById(R.id.textViewCancerlarReserva);
         idTickets = findViewById(R.id.textViewIdTicket);
+        preci = findViewById(R.id.textViewPrecioTicket);
 
         String cine = getIntent().getStringExtra("cine");
         String sala = getIntent().getStringExtra("sala");
@@ -66,6 +67,7 @@ public class VisualizarTicket extends AppCompatActivity {
         String pelicula = getIntent().getStringExtra("pelicula");
         String idTicket = getIntent().getStringExtra("idTicket");
         String idSesiones= getIntent().getStringExtra("idSesiones");
+        String precio = getIntent().getStringExtra("precio");
 
 
         cin.setText(cine);
@@ -76,6 +78,7 @@ public class VisualizarTicket extends AppCompatActivity {
         usuari.setText(usuario);
         pelicu.setText(pelicula);
         idTickets.setText(idTicket);
+        preci.setText(precio);
 
         Log.d("Firestore", "IdTicket" + ": " + idTicket);
         Log.d("Firestore", "IdSesion" + ": " + idSesiones);
@@ -89,6 +92,7 @@ public class VisualizarTicket extends AppCompatActivity {
                 hora + "\n" +
                 asientos + "\n" +
                 usuario + "\n" +
+                precio+ "\n" +
                 idTicket;
 
         int size = 500; // Tamaño del código QR

@@ -30,6 +30,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import org.checkerframework.checker.nullness.qual.NonNull;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -71,7 +72,11 @@ public class PagoConTarjeta extends AppCompatActivity {
         getWindow().setStatusBarColor(color);
 
         double result = (numeroBu * precioEntrada);
-        String resultString = String.valueOf(result);
+
+        DecimalFormat decimalFormat = new DecimalFormat("#.##");
+        double resultadoLimitado = Double.parseDouble(decimalFormat.format(result));
+
+        String resultString = String.valueOf(resultadoLimitado);
 
         operacion = (TextView) findViewById(R.id.textViewOperacion);
         resultadoOperacion = (TextView) findViewById(R.id.textViewOperacionResul);
@@ -113,31 +118,34 @@ public class PagoConTarjeta extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                boolean avanzar = true;
+                boolean avanzar1 = true;
+                boolean avanzar2= true;
+                boolean avanzar3 = true;
+
 
                 String numerTarString = numerTar.getText().toString();
 
 
                 if (numerTarString.length() == 16){
 
-                    avanzar = true;
+                    avanzar1 = true;
 
                 }else{
 
                     Toast.makeText(getApplicationContext(), "El numero de la tarjeta no es válido", Toast.LENGTH_SHORT).show();
-                    avanzar = false;
+                    avanzar1 = false;
 
                 }
 
                 if (codigo.getText().length() == 3){
 
-                    avanzar = true;
+                    avanzar2 = true;
 
                 }else{
 
                     Toast.makeText(getApplicationContext(), "El codigo de seguridad de la tarjeta no es válido", Toast.LENGTH_SHORT).show();
 
-                    avanzar = false;
+                    avanzar2 = false;
 
                 }
 
@@ -145,7 +153,7 @@ public class PagoConTarjeta extends AppCompatActivity {
 
                     Toast.makeText(getApplicationContext(), "No puedes dejar el nombre vacio", Toast.LENGTH_SHORT).show();
 
-                    avanzar = false;
+                    avanzar3 = false;
 
                 }
 
@@ -153,12 +161,12 @@ public class PagoConTarjeta extends AppCompatActivity {
 
                     Toast.makeText(getApplicationContext(), "No puedes dejar la fecha vacia", Toast.LENGTH_SHORT).show();
 
-                    avanzar = false;
+                    avanzar3 = false;
 
                 }
 
 
-                if (avanzar == true){
+                if (avanzar1 == true && avanzar2 == true && avanzar3 == true){
 
 
                     // Inicializa FirebaseFirestore
@@ -246,6 +254,7 @@ public class PagoConTarjeta extends AppCompatActivity {
                                                                                                                     ticket.put("Usuario", userId);
                                                                                                                     ticket.put("Asientos", numeroButacasCoger);
                                                                                                                     ticket.put("IdSesion", idSesione);
+                                                                                                                    ticket.put("Precio", resultString + "€" );
 
                                                                                                                     // Agrega un nuevo documento a la colección "ticket" con los atributos y valores especificados
                                                                                                                     db.collection("ticket")

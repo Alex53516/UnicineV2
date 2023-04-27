@@ -47,7 +47,9 @@ public class Reservas extends AppCompatActivity {
         List<String> asientosTicket = new ArrayList<>();
         List<String> peliculaTicket = new ArrayList<>();
         List<String> idSesiones = new ArrayList<>();
-        List<String> idTickets= new ArrayList<>();
+        List<String> idTickets = new ArrayList<>();
+        List<String> precioTickets= new ArrayList<>();
+
 
 
         int color = ContextCompat.getColor(this, R.color.azul);
@@ -116,6 +118,7 @@ public class Reservas extends AppCompatActivity {
                                                             String hora = document.getString("Hora");
                                                             String idSesion = document.getString("IdSesion");
                                                             String idTicket = document.getId();
+                                                            String precio = document.getString("Precio");
 
                                                             Log.d("Firestore", "Asientos: " + asientosString);
 
@@ -127,9 +130,10 @@ public class Reservas extends AppCompatActivity {
                                                             horaTicket.add(hora);
                                                             idTickets.add(idTicket);
                                                             idSesiones.add(idSesion);
+                                                            precioTickets.add(precio);
 
 
-                                                            TicketAdapter ticketAdapter = new TicketAdapter(nombreCineTicket, nombreSalaTicket, fechatTicket, horaTicket, asientosTicket, userNameTicket, peliculaTicket, idTickets, idSesiones);
+                                                            TicketAdapter ticketAdapter = new TicketAdapter(nombreCineTicket, nombreSalaTicket, fechatTicket, horaTicket, asientosTicket, userNameTicket, peliculaTicket, idTickets, idSesiones, precioTickets);
                                                             RecyclerView recyclerView = findViewById(R.id.recycler_view3);
                                                             recyclerView.setAdapter(ticketAdapter);
                                                             recyclerView.setLayoutManager(new LinearLayoutManager(Reservas.this));
