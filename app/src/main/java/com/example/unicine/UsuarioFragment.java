@@ -54,8 +54,11 @@ public class UsuarioFragment extends Fragment {
 
     int cuentaTickets = 0;
     List<String> tickets;
+    List<String> ticketsBorrados;
     boolean canUserBeDeleted;
     String userId;
+    boolean bucleRecorrido = false;
+
 
     private long elapsedTime;
 
@@ -282,48 +285,6 @@ public class UsuarioFragment extends Fragment {
                                                                     FirebaseAuth mAuth = FirebaseAuth.getInstance();
                                                                     FirebaseUser currentUser = mAuth.getCurrentUser();
 
-                                                                    db.collection("users")
-                                                                            .whereEqualTo("name", currentUser.getDisplayName())
-                                                                            .get()
-                                                                            .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                                                                                @Override
-                                                                                public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                                                                                    if (task.isSuccessful()) {
-                                                                                        // Si la consulta se realizó con éxito
-                                                                                        if (!task.getResult().isEmpty()) {
-                                                                                            // Obtener el id del primer documento que encontró
-                                                                                            String userId = task.getResult().getDocuments().get(0).getId();
-
-                                                                                            // Eliminar el documento completo en lugar de actualizar el campo "tickets"
-                                                                                            db.collection("users").document(userId)
-                                                                                                    .delete()
-                                                                                                    .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                                                                                        @Override
-                                                                                                        public void onSuccess(Void aVoid) {
-                                                                                                            Log.d(TAG, "Documento de usuario eliminado con éxito");
-
-                                                                                                            cuentaTickets++;
-
-                                                                                                            if (cuentaTickets == tickets.size()) {
-                                                                                                                // Elimina al usuario después de eliminar todos los tickets
-                                                                                                                deleteUser();
-
-                                                                                                            }
-
-                                                                                                        }
-                                                                                                    })
-                                                                                                    .addOnFailureListener(new OnFailureListener() {
-                                                                                                        @Override
-                                                                                                        public void onFailure(@NonNull Exception e) {
-                                                                                                            Log.w(TAG, "Error al eliminar el documento de usuario", e);
-                                                                                                        }
-                                                                                                    });
-
-                                                                                        }
-                                                                                    }
-                                                                                }
-                                                                            });
-
                                                                 }
                                                             })
                                                             .addOnFailureListener(new OnFailureListener() {
@@ -384,47 +345,47 @@ public class UsuarioFragment extends Fragment {
                                                             // iterar sobre los IDs de tickets y ejecutar el método para eliminar cada uno
                                                             for (String idTicket : tickets) {
                                                                 eliminarTicket(idTicket);
+                                                                bucleRecorrido = true;
+                                                                ticketsBorrados = (List<String>) document.get("tickets");
                                                             }
 
-                                                            if (tickets.size() == 0){
+                                                                Log.d(TAG, "Size " + ticketsBorrados.size());
 
-                                                                db.collection("users")
-                                                                        .whereEqualTo("name", user.getDisplayName())
-                                                                        .get()
-                                                                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                                                                            @Override
-                                                                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                                                                                if (task.isSuccessful()) {
-                                                                                    // Si la consulta se realizó con éxito
-                                                                                    if (!task.getResult().isEmpty()) {
-                                                                                        // Obtener el id del primer documento que encontró
-                                                                                        String userId = task.getResult().getDocuments().get(0).getId();
+                                                                    db.collection("users")
+                                                                            .whereEqualTo("name", user.getDisplayName())
+                                                                            .get()
+                                                                            .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                                                                @Override
+                                                                                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                                                                    if (task.isSuccessful()) {
+                                                                                        // Si la consulta se realizó con éxito
+                                                                                        if (!task.getResult().isEmpty()) {
+                                                                                            // Obtener el id del primer documento que encontró
+                                                                                            String userId = task.getResult().getDocuments().get(0).getId();
 
-                                                                                        // Eliminar el documento completo en lugar de actualizar el campo "tickets"
-                                                                                        db.collection("users").document(userId)
-                                                                                                .delete()
-                                                                                                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                                                                                    @Override
-                                                                                                    public void onSuccess(Void aVoid) {
-                                                                                                        Log.d(TAG, "Documento de usuario eliminado con éxito");
+                                                                                            // Eliminar el documento completo en lugar de actualizar el campo "tickets"
+                                                                                            db.collection("users").document(userId)
+                                                                                                    .delete()
+                                                                                                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                                                                        @Override
+                                                                                                        public void onSuccess(Void aVoid) {
+                                                                                                            Log.d(TAG, "Documento de usuario eliminado con éxito");
 
-                                                                                                        deleteUser();
+                                                                                                            deleteUser();
 
-                                                                                                    }
-                                                                                                })
-                                                                                                .addOnFailureListener(new OnFailureListener() {
-                                                                                                    @Override
-                                                                                                    public void onFailure(@NonNull Exception e) {
-                                                                                                        Log.w(TAG, "Error al eliminar el documento de usuario", e);
-                                                                                                    }
-                                                                                                });
+                                                                                                        }
+                                                                                                    })
+                                                                                                    .addOnFailureListener(new OnFailureListener() {
+                                                                                                        @Override
+                                                                                                        public void onFailure(@NonNull Exception e) {
+                                                                                                            Log.w(TAG, "Error al eliminar el documento de usuario", e);
+                                                                                                        }
+                                                                                                    });
 
+                                                                                        }
                                                                                     }
                                                                                 }
-                                                                            }
-                                                                        });
-
-                                                            }
+                                                                            });
 
                                                         }
                                                     } else {

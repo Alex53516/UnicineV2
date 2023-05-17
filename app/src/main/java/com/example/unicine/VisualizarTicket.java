@@ -67,7 +67,7 @@ public class VisualizarTicket extends AppCompatActivity {
         String pelicula = getIntent().getStringExtra("pelicula");
         String idTicket = getIntent().getStringExtra("idTicket");
         String idSesiones= getIntent().getStringExtra("idSesiones");
-        String precio = getIntent().getStringExtra("precio");
+        String precio;
 
 
         cin.setText(cine);
@@ -78,7 +78,16 @@ public class VisualizarTicket extends AppCompatActivity {
         usuari.setText(usuario);
         pelicu.setText(pelicula);
         idTickets.setText(idTicket);
-        preci.setText(precio);
+
+        String numeros = asientos;
+        String numerosSinEspacios = numeros.replace(" ", ""); // Elimina los espacios en blanco
+        String[] numerosArray = numerosSinEspacios.split(","); // Separa los números utilizando la coma como delimitador
+        double numeroDeNumeros = numerosArray.length * 6.8; // Obtiene el número de elementos en el arreglo
+        precio = String.valueOf(numeroDeNumeros);
+
+        System.out.println("El número de números es: " + numeroDeNumeros);
+
+        preci.setText(precio + "€");
 
         Log.d("Firestore", "IdTicket" + ": " + idTicket);
         Log.d("Firestore", "IdSesion" + ": " + idSesiones);
