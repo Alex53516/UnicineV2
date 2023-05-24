@@ -196,7 +196,6 @@ public class UsuarioFragment extends Fragment {
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 userId = document.getId();
                                 Log.d("User ID", "User ID for " + user.getDisplayName() + " is: " + userId);
-                                // Aquí puedes realizar acciones con el ID del usuario, como almacenarlo en una variable o llamar a otro método
                             }
                         } else {
                             Log.w("Firestore Error", "Error getting documents: ", task.getException());
@@ -218,7 +217,6 @@ public class UsuarioFragment extends Fragment {
                 checkIfUserCanBeDeleted(userId, inputText);
 
 
-                // Haz algo con el texto ingresado en el EditText
                 popupDialog.dismiss();
             }
         });
@@ -395,7 +393,6 @@ public class UsuarioFragment extends Fragment {
                                             });
                                 }
 
-                                // Aquí puedes mostrar un mensaje o realizar acciones basadas en el valor de canUserBeDeleted
                             } else {
                                 // No se pudo reautenticar al usuario, lo que indica que no se puede eliminar
                                 canUserBeDeleted = false;
